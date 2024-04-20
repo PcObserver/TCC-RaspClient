@@ -18,5 +18,6 @@ DB COMMANDS TODO
 
 run server
 ```
-flask --app application run --debug
+flask --app application db init
+flask --app application db migrate -m "Initial migration."
 ```

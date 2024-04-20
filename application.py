@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
 
@@ -11,10 +12,10 @@ def create_app(**startup_config):
     app.config.update(startup_config)
 
     db.init_app(app)
+    Migrate(app, db)
 
     with app.app_context():
         db.create_all()
-        print("cade")
     from views import main_blueprint
 
     app.register_blueprint(main_blueprint)
