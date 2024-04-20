@@ -12,10 +12,9 @@ def create_app(**startup_config):
 
     db.init_app(app)
 
-    # TODO: Fix db table init
     with app.app_context():
         db.create_all()
-
+        print("cade")
     from views import main_blueprint
 
     app.register_blueprint(main_blueprint)
