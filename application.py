@@ -4,6 +4,8 @@ from flask_migrate import Migrate
 
 db = SQLAlchemy()
 
+from models import action, brand, device, user_device, user
+
 
 def create_app(**startup_config):
 
