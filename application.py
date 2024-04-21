@@ -1,7 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
+
+from models import action, brand, device, user_device, user
 
 
 def create_app(**startup_config):
@@ -11,11 +14,10 @@ def create_app(**startup_config):
     app.config.update(startup_config)
 
     db.init_app(app)
+    Migrate(app, db)
 
-    # TODO: Fix db table init
     with app.app_context():
         db.create_all()
-
     from views import main_blueprint
 
     app.register_blueprint(main_blueprint)
