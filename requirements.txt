@@ -11,3 +11,4 @@ typing_extensions==4.11.0
 Werkzeug==3.0.2
 zipp==3.18.1
 Flask-Migrate==4.0.7
+bootstrap-flask==2.4.0

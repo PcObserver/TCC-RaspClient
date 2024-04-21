@@ -2,6 +2,10 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
+    {% block styles %}
+    <!-- Bootstrap CSS -->
+    {{ bootstrap.load_css() }}
+    {% endblock %}
 </head>
 <body>
     {% block content %}{% endblock %}
