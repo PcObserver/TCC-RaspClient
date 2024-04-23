@@ -1,5 +1,8 @@
-{% extends "base.html" %}
+{% extends "base-login.html" %}
 {% block title %}Homepage{% endblock %}
 {% block content %}
-<h1>Welcome to My Flask App!</h1>
+<div class="container d-flex flex-column justify-content-center align-items-center gap-5">
+    <div><img src= "{{ url_for('static',filename='images/logo.png') }}"></div>
+    <a class="btn btn-lg px-5 btn-light rounded-pill" href="{{ url_for('main.setup')}}">Iniciar</a>
+</div>
 {% endblock %}
