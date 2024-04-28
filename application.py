@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_bootstrap import Bootstrap5
 
 db = SQLAlchemy()
 
@@ -12,6 +13,7 @@ def create_app(**startup_config):
     app = Flask(__name__)
     app.config.from_pyfile("settings.py")
     app.config.update(startup_config)
+    Bootstrap5(app)
 
     db.init_app(app)
     Migrate(app, db)
