@@ -17,9 +17,9 @@ def setup():
         try:
             result = subprocess.check_output(["nmcli", "--colors", "no", "-m", "multiline", "--get-value", "SSID", "dev", "wifi", "list", "ifname", wifi_device])
             ssids_list = result.decode().split('\n')
-            avaliable_ssids = [ssid.removeprefix("SSID:") for ssid in ssids_list if len(ssid.removeprefix("SSID:")) > 0] 
+            available_ssids = [ssid.removeprefix("SSID:") for ssid in ssids_list if len(ssid.removeprefix("SSID:")) > 0] 
             context = {
-                "avaliable_ssids": avaliable_ssids 
+                "available_ssids": available_ssids 
             }
             return render_template("setup.html", **context)
         except Exception as e:
