@@ -12,6 +12,7 @@ def create_app(**startup_config):
 
     app = Flask(__name__)
     app.config.from_pyfile("settings.py")
+    app.secret_key = app.config["SECRET_KEY"]
     app.config.update(startup_config)
     Bootstrap5(app)
 

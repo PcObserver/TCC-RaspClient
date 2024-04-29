@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, current_app
+from flask import Blueprint, render_template, request, flash
 import subprocess
 
 
@@ -23,7 +23,8 @@ def setup():
             }
             return render_template("setup.html", **context)
         except Exception as e:
-            return render_template("setup.html", error="Error: failed to get avaliable wifi networks.")
+            flash(e)
+            return render_template("setup.html")
 
     
     elif request.method == 'POST':
@@ -38,7 +39,10 @@ def setup():
         result = subprocess.run(connection_command, capture_output=True)
 
         if result.stderr:
-            return "Error: failed to connect to wifi network: <i>%s</i>" % result.stderr.decode()
+            flash("Error: failed to connect to wifi network: <i>%s</i>" % result.stderr.decode())
         elif result.stdout:
-            return "Success: <i>%s</i>" % result.stdout.decode()
-        return "Error: failed to connect."
+            flash("Success: <i>%s</i>" % result.stdout.decode())
+        else:
+            flash("Error: failed to connect to wifi network")
+            
+        return render_template("setup.html")
