@@ -4,10 +4,11 @@
     <title>{% block title %}{% endblock %}</title>
     {% block styles %}
     <!-- Bootstrap CSS -->
-    {{ bootstrap.load_css() }}
-    {{ bootstrap.load_js() }}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstrap.min.css') }}">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/application.css') }}">
     {% endblock %}
+    <script src="{{ url_for('static',filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/popper.min.js') }}"></script>
 </head>
 <body style="background: radial-gradient(circle at 50% 45%, #A5EAD1 0, #5D5FEF 40%);">
     <div class="cover-container d-flex flex-column vh-100 justify-content-center align-items-center">
