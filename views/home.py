@@ -39,10 +39,10 @@ def setup():
         result = subprocess.run(connection_command, capture_output=True)
 
         if result.stderr:
-            flash("Error: failed to connect to wifi network: <i>%s</i>" % result.stderr.decode())
+            flash("Error: failed to connect to wifi network: %s" % result.stderr.decode(), 'error')
         elif result.stdout:
-            flash("Success: <i>%s</i>" % result.stdout.decode())
+            flash("Success: %s" % result.stdout.decode(), 'success')
         else:
-            flash("Error: failed to connect to wifi network")
-            
+            flash("Error: failed to connect to wifi network", 'error')
+
         return render_template("setup.html")
