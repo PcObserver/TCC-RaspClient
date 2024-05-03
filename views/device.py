@@ -1,16 +1,13 @@
 from flask import Blueprint, render_template
+from models.device import Device
+from models.brand import Brand
 
 device_blueprint = Blueprint("device", __name__)
 
-
 @device_blueprint.route("/devices")
-def list_available_devices():
-    return render_template("device/index.html")
-
-
-@device_blueprint.route("/devices/mine")
 def list_registered_devices():
-    return render_template("device/index.html")
+    devices = Device.query.all()
+    return render_template("device/index.html", devices=devices)
 
 
 @device_blueprint.route("/device/register")
