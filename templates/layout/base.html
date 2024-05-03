@@ -10,9 +10,9 @@
     <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static',filename='js/popper.min.js') }}"></script>
 </head>
-<body class="d-flex flex-nowrap">
+<body class="d-flex flex-nowrap bg-body-tertiary">
     {% include "./components/navbar.html" %}
-    <div class="container d-flex flex-column vh-100 p-5 bg-body-tertiary">
+    <div class="container d-flex flex-column vh-100 p-5">
         {% block content %}{% endblock %}
         <div aria-live="polite" aria-atomic="true" class="position-fixed fixed-bottom m-3">
             {% with messages = get_flashed_messages(with_categories=true) %}
