@@ -2,6 +2,10 @@
     --light-purple: 93, 95, 239
 }
 
+.bg-primary {
+    background-color: rgba(var(--light-purple), 1) !important;
+}
+
 .toast-success {
     background-color: #28a745; /* Success background color */
     color: #fff; /* Text color */

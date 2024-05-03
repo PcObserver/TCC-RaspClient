@@ -1,10 +1,10 @@
-{% extends "base-login.html" %}
+{% extends "./layout/base-login.html" %}
 {% block title %}Homepage{% endblock %}
 {% block content %}
 <div class="container d-flex flex-column justify-content-center align-items-center">
     <div class="card rounded-5">
         <div class="card-body p-5">
-            <form action="{{url_for('main.setup')}}", method="post">
+            <form action="{{url_for('setup.setup')}}", method="post">
                 <h3 class="mb-5">Configure o acesso a rede Wi-Fi</h3>
 
                 <div data-mdb-input-init class="form-outline mb-4">

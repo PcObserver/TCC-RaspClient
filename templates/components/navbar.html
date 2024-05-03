@@ -1,0 +1,21 @@
+<div class="d-flex flex-column flex-shrink-0 p-4 text-bg-dark bg-primary" style="width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-5 me-md-auto text-white text-decoration-none">
+      <div class="bi pe-none me-2"><img src= "{{ url_for('static',filename='images/logo.png') }}" height="32"></div>
+      <span class="fs-4 ms-3">Nome</span>
+    </a>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="{{url_for('device.list_registered_devices')}}" class="nav-link active fw-bold" aria-current="page">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+          Meus dispositivos
+        </a>
+      </li>
+      <li>
+        <a href="{{url_for('setup.setup')}}" class="nav-link text-white fw-bold">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+          Configurações
+        </a>
+      </li>
+    </ul>
+    <hr>
+  </div>

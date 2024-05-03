@@ -1,30 +1,30 @@
-from flask import Blueprint, render_template, request, flash, redirect
+from flask import Blueprint, render_template, request, flash, redirect,url_for
 import utils.network as network
 
-main_blueprint = Blueprint("main", __name__)
+setup_blueprint = Blueprint("setup", __name__)
 
 
-@main_blueprint.route("/")
+@setup_blueprint.route("/")
 def index():
     return render_template("index.html")
 
 
-@main_blueprint.route("/setup", methods=['GET', 'POST'])
+@setup_blueprint.route("/setup", methods=['GET', 'POST'])
 def setup():
     wifi_device = "wlan0"
     if network.get_current_wifi_network() != "iot_hub":
-        flash("Skip setup network process", 'success')
-        return redirect("/")
-   
+        flash("Skiped setup network process", 'success')
+        return redirect(url_for("device.list_registered_devices"))
+    
     if request.method == 'GET':
         try:
             context = {
                 "available_ssids": network.list_availabe_networks(wifi_device) 
             }
-            return render_template("setup.html", **context)
+            return render_template("/setup/index.html", **context)
         except Exception as e:
             flash(e)
-            return render_template("setup.html")
+            return render_template("/setup/index.html")
 
     elif request.method == 'POST':
         ssid = request.form['ssid']
@@ -38,4 +38,4 @@ def setup():
         else:
             flash("Error: failed to connect to wifi network", 'error')
 
-        return render_template("setup.html")
+        return render_template("/setup/index.html")
