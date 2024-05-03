@@ -1,9 +1,12 @@
 import subprocess
 
+
 def get_current_wifi_network():
     try:
         result = subprocess.check_output(["nmcli", "-t", "-f", "active,ssid", "dev", "wifi"])
-        return result.decode().strip().removeprefix("yes:")
+        ssids_list = result.decode().split('\n')
+        filtered_list = filter(lambda x: x.startswith("yes:"), ssids_list)
+        return filtered_list[0].removeprefix("yes:")
     except Exception:
         return None
 
