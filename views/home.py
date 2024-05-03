@@ -12,7 +12,7 @@ def index():
 @main_blueprint.route("/setup", methods=['GET', 'POST'])
 def setup():
     wifi_device = "wlan0"
-    if network.get_current_wifi_network() != "pi_hub":
+    if network.get_current_wifi_network() != "Hotspot":
         flash("Skip setup network process", 'success')
         return redirect("/")
    
