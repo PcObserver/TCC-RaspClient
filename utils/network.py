@@ -2,7 +2,7 @@ import subprocess
 
 def get_current_wifi_network():
     try:
-        result = subprocess.check_output(["nmcli", "-t", "-f", "active,ssid", "dev", "wifi", "| egrep '^yes' | cut -d\' -f2"])
+        result = subprocess.check_output(["nmcli", "-t", "-f", "active,ssid", "dev", "wifi"])
         return result.decode().strip().removeprefix("yes:")
     except Exception:
         return None
