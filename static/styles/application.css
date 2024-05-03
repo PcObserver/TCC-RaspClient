@@ -1,5 +1,16 @@
 :root{
-    --light-purple: 93, 95, 239
+    --light-purple: 58, 60, 214;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background-color: rgb(11, 156, 102);
+    color: rgb(255, 255, 255);
+}
+
+.btn-primary {
+    background-color: rgba(var(--light-purple), 1);
+    border-color: rgba(var(--light-purple), 1);
+    font-weight: bold;
 }
 
 .bg-primary {

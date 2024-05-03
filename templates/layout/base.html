@@ -12,7 +12,7 @@
 </head>
 <body class="d-flex flex-nowrap">
     {% include "./components/navbar.html" %}
-    <div class="cover-container d-flex flex-column vh-100">
+    <div class="container d-flex flex-column vh-100 p-5 bg-body-tertiary">
         {% block content %}{% endblock %}
         <div aria-live="polite" aria-atomic="true" class="position-fixed fixed-bottom m-3">
             {% with messages = get_flashed_messages(with_categories=true) %}
