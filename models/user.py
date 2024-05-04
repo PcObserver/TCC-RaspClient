@@ -1,12 +1,12 @@
 from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import UUID
 from application import db
-
+import uuid
 
 class User(db.Model):
     __tablename__ = "users"
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True)
+    id = db.Column(UUID(as_uuid=True), primary_key=True,default=uuid.uuid4)
     device_id = db.Column(UUID(as_uuid=True), db.ForeignKey("devices.id"))
     name = db.Column(db.String)
     email = db.Column(db.String)

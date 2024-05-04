@@ -1,12 +1,12 @@
 from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import UUID
 from application import db
-
+import uuid
 
 class UserDevice(db.Model):
     __tablename__ = "user_devices"
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True)
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     local_network_address = db.Column(db.String)
     nickname = db.Column(db.String)
     device_id = db.Column(

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from models.brand import Brand
-from sqlalchemy.orm import Session 
+from application import db
 
 brand_blueprint = Blueprint("brand", __name__)
 
@@ -15,10 +15,9 @@ def create_brand():
         return render_template("brand/new.html")
     
     elif request.method == "POST":
-        with Session() as session:
-            name = request.form.get("name")
-            prefix = request.form.get("prefix")
-            brand = Brand(name= name, prefix= prefix)
-            session.add(brand)
-            session.commit()
+        name = request.form.get("name")
+        prefix = request.form.get("prefix")
+        brand = Brand(name= name, prefix= prefix)
+        db.session.add(brand)
+        db.session.commit()
         return redirect(url_for("brand.list_brands", selected_brand=brand.id))
