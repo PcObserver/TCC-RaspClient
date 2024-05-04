@@ -12,11 +12,11 @@
 <form action="{{ url_for('device.register_device') }}" method="GET">
   <div class="mb-3">
       <label for="device_type" class="form-label fw-bold">Marca do dispositivo</label>
-      <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span><a href="{{url_for('brand.list_brands')}}" class="text-decoration-none ms-2">Clique aqui<a>
+      <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span><a href="{{url_for('brand.create_brand')}}" class="text-decoration-none ms-2">Clique aqui<a>
       <select class="form-select select2-brands" id="brand" name="brand" required>
           <option value="" selected>Selecione uma marca</option>
           {% for brand in brands %}
-              <option value="{{brand.id}}">{{brand.name}}</option>
+              <option value="{{brand.id}}" selected="{{"true" if brand.id == selected_brand else none }}">{{brand.name}}</option>
           {% endfor %}
       </select>
   </div>
