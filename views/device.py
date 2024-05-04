@@ -1,4 +1,5 @@
 from multiprocessing import context
+from uuid import UUID
 from flask import Blueprint, render_template, request, redirect, url_for
 from models.device import Device
 from models.brand import Brand
@@ -16,8 +17,9 @@ def list_registered_devices():
 def create_device():
     if request.method == "GET":
         context = {
-            "brand": None #Brand.query.get(request.args.get('brand_id'))
+            "brand": Brand.query.get(UUID(request.args.get('brand_id')))
         }
+        print("AAAAAAAAAAAAAAAAAAAAA")
         return render_template("device/register.html", **context)
     elif request.method == "POST":
         name = request.form.get("name")
@@ -31,7 +33,7 @@ def create_device():
 @device_blueprint.route("/brand/devices")
 def list_devices_by_brand():
     context = {
-        "devices": [], #Device.query.filter_by(brand_id=request.args.get('brand_id')).all()
+        "devices": Device.query.filter_by(brand_id=UUID(request.args.get('brand_id'))).all(),
         "brand_id": request.args.get('brand_id')
     }
 

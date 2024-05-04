@@ -11,7 +11,7 @@
 <form action="{{ url_for('device.create_device') }}" method="POST">
     <div class="mb-3">
         <label for="device_name" class="form-label">Apelido do dispositivo</label>
-        <input type="text" class="form-control" id="device_name" name="device_name" required>
+        <input type="text" class="form-control" id="device_name" name="name" required>
     </div>
     <div class="mb-3">
         <label for="device_description" class="form-label">Descrição do dispositivo</label>
@@ -19,8 +19,8 @@
     </div>
     <div class="mb-3">
         <label for="device_type" class="form-label">Marca de dispositivo</label>
-        <select class="form-select" id="device_type" name="device_type" required disabled>
-            <option value="{{brand.id}}">{{brand.name}}</option>
+        <select class="form-select" id="device_type" name="brand_id" required disabled>
+            <option value="{{brand.id}}" selected="true">{{brand.name}}</option>
         </select>
     </div>
     <div class="mb-3">
