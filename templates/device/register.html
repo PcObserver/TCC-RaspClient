@@ -8,7 +8,7 @@
     </ol>
 </nav>  
 <h2 class="fw-bold text-body-emphasis mb-5">Registrar Dispositivo</h2>  
-<form action="{{ url_for('device.register_device') }}" method="POST">
+<form action="{{ url_for('device.create_device') }}" method="POST">
     <div class="mb-3">
         <label for="device_name" class="form-label">Apelido do dispositivo</label>
         <input type="text" class="form-control" id="device_name" name="device_name" required>
@@ -18,16 +18,14 @@
         <textarea class="form-control" id="device_description" name="device_description" rows="3" required></textarea>
     </div>
     <div class="mb-3">
-        <label for="device_model" class="form-label">Modelo do dispositivo</label>
-        <input type="text" class="form-control" id="device_model" name="device_model" required>
+        <label for="device_type" class="form-label">Marca de dispositivo</label>
+        <select class="form-select" id="device_type" name="device_type" required disabled>
+            <option value="{{brand.id}}">{{brand.name}}</option>
+        </select>
     </div>
     <div class="mb-3">
-        <label for="device_type" class="form-label">Marca de dispositivo</label>
-        <select class="form-select" id="device_type" name="device_type" required>
-            <option value="1">Tipo 1</option>
-            <option value="2">Tipo 2</option>
-            <option value="3">Tipo 3</option>
-        </select>
+        <label for="brand_name" class="form-label fw-bold">Publicar no repositorio remoto</label>
+        <input type="checkbox" class="form-check" id="brand_is_plublic" name="publish">
     </div>
     <div class="d-flex justify-content-end mt-5">
     <button type="submit" class="btn btn-primary">Registrar</button>

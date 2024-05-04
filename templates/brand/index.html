@@ -9,11 +9,12 @@
 </nav>  
 <h2 class="fw-bold text-body-emphasis mb-5">Escolha uma marca</h2>
 
-<form action="{{ url_for('device.register_device') }}" method="GET">
+<form action="{{ url_for('device.list_devices_by_brand') }}" method="GET">
   <div class="mb-3">
       <label for="device_type" class="form-label fw-bold">Marca do dispositivo</label>
-      <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span><a href="{{url_for('brand.create_brand')}}" class="text-decoration-none ms-2">Clique aqui<a>
-      <select class="form-select" id="brand" name="brand" required>
+      <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span>
+      <a href="{{url_for('brand.create_brand')}}" class="text-decoration-none ms-2">Clique aqui<a>
+      <select class="form-select" id="brand" name="brand_id" required>
           <option value="" selected>Selecione uma marca</option>
           {% for brand in brands %}
               <option value="{{brand.id}}" selected="{{"true" if brand.id == selected_brand else none }}">{{brand.name}}</option>
