@@ -1,8 +1,8 @@
 """Initial migration.
 
-Revision ID: 2bf442b8e3a4
+Revision ID: 67cd2c393e40
 Revises: 
-Create Date: 2024-05-03 22:04:11.409421
+Create Date: 2024-05-03 23:54:34.973681
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2bf442b8e3a4'
+revision = '67cd2c393e40'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,14 +33,6 @@ def upgrade():
                existing_type=sa.NUMERIC(),
                type_=sa.UUID(),
                existing_nullable=False)
-        batch_op.alter_column('name',
-               existing_type=sa.VARCHAR(),
-               nullable=False)
-        batch_op.alter_column('prefix',
-               existing_type=sa.VARCHAR(),
-               nullable=False)
-        batch_op.create_unique_constraint(None, ['prefix'])
-        batch_op.create_unique_constraint(None, ['name'])
 
     with op.batch_alter_table('devices', schema=None) as batch_op:
         batch_op.alter_column('id',
@@ -116,14 +108,6 @@ def downgrade():
                existing_nullable=False)
 
     with op.batch_alter_table('brands', schema=None) as batch_op:
-        batch_op.drop_constraint(None, type_='unique')
-        batch_op.drop_constraint(None, type_='unique')
-        batch_op.alter_column('prefix',
-               existing_type=sa.VARCHAR(),
-               nullable=True)
-        batch_op.alter_column('name',
-               existing_type=sa.VARCHAR(),
-               nullable=True)
         batch_op.alter_column('id',
                existing_type=sa.UUID(),
                type_=sa.NUMERIC(),
