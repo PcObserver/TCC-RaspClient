@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from models.user_device import UserDevice
+from models.action import Action
 from application import db
 from uuid import UUID
 
@@ -32,3 +33,12 @@ def register_devices():
         db.session.add(user_device)
         db.session.commit()
         return redirect(url_for("user_device.list_registered_devices"))
+    
+@user_device_blueprint.route("/device/<device_id>")
+def show_device(device_id):
+    user_device = UserDevice.query.get(UUID(device_id))
+    context = {
+        "device": user_device,
+        "commands": Action.query.filter_by(device_id=user_device.device_id).all()
+    }
+    return render_template("user_device/show.html", **context)

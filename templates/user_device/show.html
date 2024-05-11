@@ -1,0 +1,26 @@
+{% extends "./layout/base.html" %}
+{% block title %}Detalhes{% endblock %}
+{% block content %}
+<h2 class="fw-bold text-body-emphasis">{{device.nickname}}</h2>
+<subtitle class="fw-bold text-body-emphasis mb-5">Detalhes do dispositivo</subtitle>
+
+<div>
+    <label for="hostname" class="form-label fw-bold">Hostname</label>
+    <input type="text" class="form-control" id="hostname" name="hostname" value="{{device.hostname}}" disabled>
+    <label for="ip" class="form-label fw-bold">IP</label>
+    <input type="text" class="form-control" id="ip" name="ip" value="{{device.address}}" disabled>
+    <label for="port" class="form-label fw-bold">Porta</label>
+    <input type="text" class="form-control" id="port" name="port" value="{{device.port}}" disabled>
+</div>
+
+<div>
+    <h3 class="fw-bold text-body-emphasis mt-5">Comandos</h3>
+    <a href="{{url_for('action.register', device_id=device.device_id)}}" class="">Adicionar comando</a>
+
+    {% for command in commands %}
+    <form action="http://{{device.hostname}}:{{device.port}}{{command.path}}" method="POST">
+        <button type="submit" class="btn btn-primary">{{command.name}}</button>
+    </form>
+    {% endfor %}
+</div>
+{% endblock %}

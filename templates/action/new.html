@@ -1,0 +1,43 @@
+{% extends "./layout/base.html" %}
+{% block title %}Registrar Dispositivo{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page"><a
+                href="{{url_for('user_device.list_registered_devices')}}">Dispositivos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Ações</li>
+        <li class="breadcrumb-item active" aria-current="page">Registrar</li>
+    </ol>
+</nav>
+<h2 class="fw-bold text-body-emphasis mb-5">Registrar Comando</h2>
+<form action="{{ url_for('action.register', device_id=device_id)}}" method="POST">
+    <div class="mb-3">
+        <label for="name" class="form-label">Nome da ação</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Descrição</label>
+        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="path" class="form-label">Rota</label>
+        <input type="text" class="form-control" id="path" name="path" required>
+    </div>
+    <div class="mb-3">
+        <label for="payload_data" class="form-label">Payload</label>
+        <textarea class="form-control" id="payload_data" name="payload_data" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="device_type" class="form-label">Dispositivo</label>
+        <select class="form-select disabled" id="device_type" name="brand_id" readonly>
+            <option value="{{device_id}}">{{device_id}}</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="brand_name" class="form-label fw-bold">Publicar no repositorio remoto</label>
+        <input type="checkbox" class="form-check" id="brand_is_plublic" name="publish">
+    </div>
+    <div class="d-flex justify-content-end mt-5">
+        <button type="submit" class="btn btn-primary">Registrar</button>
+    </div>
+    {% endblock %}
