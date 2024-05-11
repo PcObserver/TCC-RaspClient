@@ -19,13 +19,30 @@
         <label for="description" class="form-label">Descrição</label>
         <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
     </div>
+    <div>
+        <label for="request_method" class="form-label">Método</label>
+        <select class="form-select" id="request_method" name="request_method" required>
+            {% for method in request_methods %}
+            <option value="{{method}}">{{method}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label for="connection_protocol" class="form-label">Protocolo</label>
+        <select class="form-select" id="connection_protocol" name="connection_protocol" required>
+            {% for protocol in connection_protocols %}
+            <option value="{{protocol}}">{{protocol}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
     <div class="mb-3">
         <label for="path" class="form-label">Rota</label>
         <input type="text" class="form-control" id="path" name="path" required>
     </div>
     <div class="mb-3">
         <label for="payload_data" class="form-label">Payload</label>
-        <textarea class="form-control" id="payload_data" name="payload_data" rows="3" required></textarea>
+        <textarea class="form-control" id="payload_data" name="payload_data" rows="3"></textarea>
     </div>
     <div class="mb-3">
         <label for="device_type" class="form-label">Dispositivo</label>

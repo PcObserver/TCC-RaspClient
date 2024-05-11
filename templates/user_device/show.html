@@ -17,10 +17,15 @@
     <h3 class="fw-bold text-body-emphasis mt-5">Comandos</h3>
     <a href="{{url_for('action.register', device_id=device.device_id)}}" class="">Adicionar comando</a>
 
-    {% for command in commands %}
-    <form action="http://{{device.hostname}}:{{device.port}}{{command.path}}" method="POST">
-        <button type="submit" class="btn btn-primary">{{command.name}}</button>
-    </form>
-    {% endfor %}
+    <div class="d-flex flex-column gap-2">
+        {% for command in commands %}
+        <a href="{{url_for('action.call_action', device_id=device.id, action_id=command.id)}}"
+            class="btn btn-primary">{{command.name}}</a>
+        {% endfor %}
+    </div>
 </div>
+
+<script>
+
+</script>
 {% endblock %}

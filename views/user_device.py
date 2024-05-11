@@ -20,7 +20,7 @@ def find_devices():
     return render_template("device/find.html")
 
 
-@user_device_blueprint.route("/user/device/resgiter", methods=["POST"])
+@user_device_blueprint.route("/user_device/resgiter", methods=["POST"])
 def register_devices():
     if request.method == "POST":
         print(request.form)
@@ -34,7 +34,7 @@ def register_devices():
         db.session.commit()
         return redirect(url_for("user_device.list_registered_devices"))
     
-@user_device_blueprint.route("/device/<device_id>")
+@user_device_blueprint.route("/user_device/<device_id>")
 def show_device(device_id):
     user_device = UserDevice.query.get(UUID(device_id))
     context = {
