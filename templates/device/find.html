@@ -1,0 +1,61 @@
+{% extends "./layout/base.html" %}
+{% block title %}Encontrar dispositivos{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('device.list_registered_devices')}}">Dispositivos</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Marcas</li>
+    </ol>
+</nav>  
+<h2 class="fw-bold text-body-emphasis">Encontrar dispositivos</h2>
+<subtitle class="fw-bold text-body-emphasis mb-5">Dispositivos conectados a sua rede</subtitle>
+
+<div class="mb-3">
+<form action="{{ url_for('device.find_devices') }}" method="GET">
+  <label for="device_type" class="form-label fw-bold">Dispositivos</label>
+  <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span>
+  <a href="{{url_for('brand.create_brand')}}" class="text-decoration-none ms-2">Clique aqui<a>
+    <select class="form-select" id="device" name="device" required>
+      <option value="" selected>Selecione um dispositivo</option>
+      {% for key,value in devices.items() %}
+      <option id="{{key}}" value="{{key}}" data-hostname="{{value["hostname"]}}", data-ip="{{value["ip"]}}", data-port="{{value["port"]}}" data-extra="{{value["txt"]}}">{{key}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col">
+    <label for="hostname" class="form-label">Hostname</label>
+    <input id="hostname" name="hostname" class="form-control disabled" readonly>
+  </div>
+  <div class="d-flex gap-2">
+    <div class="col">
+      <label for="ip" class="form-label">IP</label>
+      <input id="ip" name="ip" class="form-control disabled" readonly>
+    </div>
+    <div class="col">
+      <label for="port" class="form-label">Porta</label>
+      <input id="port" name="port" class="form-control disabled" readonly>
+    </div>
+  </div>
+    <div class="col">
+      <label for="text" class="form-label">Extra</label>
+      <input id="text" name="text" class="form-control disabled" readonly>
+    </div>
+  <div class="d-flex justify-content-end mt-5">
+    <button type="submit" class="btn btn-primary">Próximo</button>
+  </div>
+</form>
+
+{% block script %}
+  <script>
+    $("#device").change((e) => {
+      selected_value = $(event.target).val();
+      selected_option = $(`#${selected_value}`);
+      $("#hostname").val(selected_option.data('hostname'));
+      $("#ip").val(selected_option.data('ip'));
+      $("#port").val(selected_option.data('port'));
+      $("#extra").val(selected_option.data('extra'));
+    });
+  </script>
+{% endblock %}
+
+{% endblock %}

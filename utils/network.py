@@ -29,3 +29,35 @@ def connect_to_network(wifi_device, ssid, password):
         connection_command.append(password)
 
     return subprocess.run(connection_command, capture_output=True)
+
+
+def strip_value(string):
+    return string.split("=")[1].strip()[1:-1]
+
+
+def list_available_devices(device_type=None):
+    try:
+        command = ["avahi-browse", "-art"]
+        if device_type:
+            command.append(device_type)
+
+        result = subprocess.check_output(command)
+        result = result.decode().split('\n= enp4s0')
+        # pop first element because it is not a device
+        result.pop(0)
+        # list of devices
+        devices = dict()
+        for i in range(len(result)):
+            data = list(map(str.strip, result[i].split('\n')))
+            data.pop(0)
+            devices[data[0].split("=")[1].strip()[1:-7]] = {
+                'hostname': strip_value(data[0]),
+                'ip': strip_value(data[1]),
+                'port': strip_value(data[2]),
+                'txt': strip_value(data[3]),
+            }          
+
+        return devices
+    except Exception:
+        return []
+    

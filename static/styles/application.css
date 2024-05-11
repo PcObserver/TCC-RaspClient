@@ -36,3 +36,9 @@
     background-color: #17a2b8; /* Info background color */
     color: #fff; /* Text color */
 }
+
+.form-control.disabled {
+    background-color: var(--bs-secondary-bg)!important;
+    opacity: 1;
+    pointer-events: none;
+}
