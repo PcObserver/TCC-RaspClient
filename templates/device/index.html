@@ -3,35 +3,36 @@
 {% block content %}
 <h2 class="fw-bold text-body-emphasis mb-5">Dispositivos</h2>
 <div class="row align-items-center g-3 mb-4">
-<div class="col mx-n4 mx-lg-n6 px-lg-6">
-    <div class="col-auto d-flex align-items-center justify-content-between">
-        <form class="position-relative" action="#" accept-charset="UTF-8" method="get">
-            <div class="row col-auto g-2">
-                <div class="col-auto">
-                    <div class="search-box">
-                        <input class="form-control search-input" placeholder="Procurar" type="search">
+    <div class="col mx-n4 mx-lg-n6 px-lg-6">
+        <div class="col-auto d-flex align-items-center justify-content-between">
+            <form class="position-relative" action="#" accept-charset="UTF-8" method="get">
+                <div class="row col-auto g-2">
+                    <div class="col-auto">
+                        <div class="search-box">
+                            <input class="form-control search-input" placeholder="Procurar" type="search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="col-auto">
+                <a href="{{url_for('device.find_devices')}}" class="btn btn-primary">Encontrar dispositivo</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-9 mt-5 position-relative top-1 bg-">
+        {% for device in devices %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        {{device["nickname"]}} - {{device["hostname"]}}:{{device["port"]}}
                     </div>
                 </div>
             </div>
-        </form>
-        <div class="col-auto">
-            <a href="{{url_for('device.find_devices')}}" class="btn btn-primary">Encontrar dispositivo</a>
         </div>
+        {% endfor %}
     </div>
 </div>
 
-<div class="mb-9 mt-5 position-relative top-1 bg-">
-    {% for device in devices %}
-    <div class="card mb-3">
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-</div>
- 
 {% endblock %}

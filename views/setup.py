@@ -14,7 +14,7 @@ def setup():
     wifi_device = "wlan0"
     if network.get_current_wifi_network() != "iot_hub":
         flash("Skiped setup network process", 'success')
-        return redirect(url_for("device.list_registered_devices"))
+        return redirect(url_for("user_device.list_registered_devices"))
     
     if request.method == 'GET':
         try:

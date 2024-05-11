@@ -6,7 +6,7 @@ from flask_bootstrap import Bootstrap5
 db = SQLAlchemy()
 
 from models import action, brand, device, user_device, user
-from views import setup_blueprint, device_blueprint, brand_blueprint
+from views import setup_blueprint, device_blueprint, brand_blueprint, user_device_blueprint
 
 def create_app(**startup_config):
 
@@ -25,6 +25,7 @@ def create_app(**startup_config):
     app.register_blueprint(setup_blueprint)
     app.register_blueprint(device_blueprint)
     app.register_blueprint(brand_blueprint)
+    app.register_blueprint(user_device_blueprint)
 
     app.template_folder = "templates"
 

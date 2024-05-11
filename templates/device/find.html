@@ -2,60 +2,105 @@
 {% block title %}Encontrar dispositivos{% endblock %}
 {% block content %}
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('device.list_registered_devices')}}">Dispositivos</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Marcas</li>
-    </ol>
-</nav>  
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page"><a
+        href="{{url_for('user_device.list_registered_devices')}}">Dispositivos</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Marcas</li>
+  </ol>
+</nav>
 <h2 class="fw-bold text-body-emphasis">Encontrar dispositivos</h2>
 <subtitle class="fw-bold text-body-emphasis mb-5">Dispositivos conectados a sua rede</subtitle>
 
-<div class="mb-3">
-<form action="{{ url_for('device.find_devices') }}" method="GET">
-  <label for="device_type" class="form-label fw-bold">Dispositivos</label>
-  <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span>
-  <a href="{{url_for('brand.create_brand')}}" class="text-decoration-none ms-2">Clique aqui<a>
-    <select class="form-select" id="device" name="device" required>
-      <option value="" selected>Selecione um dispositivo</option>
-      {% for key,value in devices.items() %}
-      <option id="{{key}}" value="{{key}}" data-hostname="{{value["hostname"]}}", data-ip="{{value["ip"]}}", data-port="{{value["port"]}}" data-extra="{{value["txt"]}}">{{key}}</option>
-      {% endfor %}
-    </select>
-  </div>
-  <div class="col">
-    <label for="hostname" class="form-label">Hostname</label>
-    <input id="hostname" name="hostname" class="form-control disabled" readonly>
-  </div>
-  <div class="d-flex gap-2">
-    <div class="col">
-      <label for="ip" class="form-label">IP</label>
-      <input id="ip" name="ip" class="form-control disabled" readonly>
+<form action="{{ url_for('user_device.register_devices') }}" method="POST">
+  <div class="d-flex flex-column gap-4">
+    <div>
+      <label for="nickname" class="form-label fw-bold">Apelido</label>
+      <input type="text" class="form-control" id="nickname" name="nickname" required>
     </div>
-    <div class="col">
-      <label for="port" class="form-label">Porta</label>
-      <input id="port" name="port" class="form-control disabled" readonly>
+    <div>
+      <label for="device_type" class="form-label fw-bold">Dispositivos</label>
+      <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span>
+      <a href="{{url_for('brand.create_brand')}}" class="text-decoration-none ms-2">Clique aqui</a>
+      <select class="form-select" id="device" name="device" required>
+        <option value="" selected>Selecione um dispositivo</option>
+        {% for key,value in devices.items() %}
+        <option id="{{key}}" value="{{key}}" data-hostname="{{value['hostname']}}" , data-ip="{{value['ip']}}" ,
+          data-port="{{value['port']}}" data-extra="{{value['txt']}}">{{key}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="device_type" class="form-label fw-bold">Marca</label>
+      <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span>
+      <a href="{{url_for('brand.create_brand')}}" class="text-decoration-none ms-2">Clique aqui</a>
+      <select class="form-select select2-brands" id="brand" data-select2-id="brands" name="brand" required>
+        <option value="" selected>Selecione uma marca</option>
+      </select>
+    </div>
+    <div>
+      <label for="device_model" class="form-label fw-bold">Modelo</label>
+      <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span>
+      <a href="{{url_for('device.create_device')}}" class="text-decoration-none ms-2" id="new-model">Clique aqui</a>
+      <select class="form-select select2-devices" data-select2-id="devices" id="model" name="model" required>
+        <option value="" selected>Selecione uma modelo</option>
+      </select>
     </div>
   </div>
-    <div class="col">
-      <label for="text" class="form-label">Extra</label>
-      <input id="text" name="text" class="form-control disabled" readonly>
+  <div class="accordion accordion-flush mt-2" id="accordionExample">
+    <div class="">
+      <div class="accordion-header" id="flush-headingOne">
+        <div class="text-center fw-semibold opacity-50 collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+          detalhes +
+        </div>
+      </div>
+      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+        data-bs-parent="#accordionFlushExample">
+        <div class="col">
+          <label for="hostname" class="form-label">Hostname</label>
+          <input id="hostname" name="hostname" class="form-control disabled" readonly>
+        </div>
+        <div class="d-flex gap-2">
+          <div class="col">
+            <label for="ip" class="form-label">IP</label>
+            <input id="address" name="ip" class="form-control disabled" readonly>
+          </div>
+          <div class="col">
+            <label for="port" class="form-label">Porta</label>
+            <input id="port" name="port" class="form-control disabled" readonly>
+          </div>
+        </div>
+        <div class="col">
+          <label for="text" class="form-label">Extra</label>
+          <input id="text" name="text" class="form-control disabled" readonly>
+        </div>
+      </div>
     </div>
+  </div>
+
   <div class="d-flex justify-content-end mt-5">
     <button type="submit" class="btn btn-primary">Próximo</button>
   </div>
 </form>
 
 {% block script %}
-  <script>
-    $("#device").change((e) => {
-      selected_value = $(event.target).val();
-      selected_option = $(`#${selected_value}`);
-      $("#hostname").val(selected_option.data('hostname'));
-      $("#ip").val(selected_option.data('ip'));
-      $("#port").val(selected_option.data('port'));
-      $("#extra").val(selected_option.data('extra'));
-    });
-  </script>
+<script>
+  $("#device").change((e) => {
+    selected_value = $(event.target).val();
+    selected_option = $(`#${selected_value}`);
+    console.log(selected_option.data('hostname'))
+    $("#hostname").val(selected_option.data('hostname'));
+    $("#address").val(selected_option.data('ip'));
+    $("#port").val(selected_option.data('port'));
+    $("#extra").val(selected_option.data('extra'));
+  });
+
+  $("#brand").change((e) => {
+    selected_value = $("#brand").val();
+    $("#model").val(null).trigger('change');
+    $("#new-model").prop("href", `{{url_for('device.create_device')}}?brand_id=${selected_value}`);
+  });
+</script>
 {% endblock %}
 
 {% endblock %}

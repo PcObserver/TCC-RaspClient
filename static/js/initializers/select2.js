@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     $('.select2-brands').select2({
         ajax: {
             url: '/api/brands',
@@ -6,19 +7,32 @@ $(document).ready(function() {
             delay: 250,
             data: function(params) {
                 return {
-                    search: params.term,
-                    page: params.page
+                    q: params.term,
                 };
             },
-            processResults: function(data, params) {
+            processResults: function(data) {
                 return {
-                    results: data.data,
-                    pagination: {
-                        more: data.meta.current_page < data.meta.last_page
-                    }
+                    results: data.brands,
                 };
             },
-            cache: true
+        },
+    });
+
+    $('.select2-devices').select2({
+        ajax: {
+            url: '/api/devices',
+            dataType: 'json',
+            delay: 250,
+            data: function(params) {
+                return {
+                    q: params.term,
+                };
+            },
+            processResults: function(data) {
+                return {
+                    results: data.devices,
+                };
+            },
         },
     });
 });

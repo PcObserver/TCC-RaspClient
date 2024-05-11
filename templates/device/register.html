@@ -3,11 +3,12 @@
 {% block content %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('device.list_registered_devices')}}">Dispositivos</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Registrar</li>
+        <li class="breadcrumb-item active" aria-current="page"><a
+                href="{{url_for('user_device.list_registered_devices')}}">Dispositivos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Registrar</li>
     </ol>
-</nav>  
-<h2 class="fw-bold text-body-emphasis mb-5">Registrar Dispositivo</h2>  
+</nav>
+<h2 class="fw-bold text-body-emphasis mb-5">Registrar Dispositivo</h2>
 <form action="{{ url_for('device.create_device') }}" method="POST">
     <div class="mb-3">
         <label for="device_name" class="form-label">Apelido do dispositivo</label>
@@ -19,7 +20,7 @@
     </div>
     <div class="mb-3">
         <label for="device_type" class="form-label">Marca de dispositivo</label>
-        <select class="form-select" id="device_type" name="brand_id" required disabled>
+        <select class="form-select disabled" id="device_type" name="brand_id" readonly>
             <option value="{{brand.id}}" selected="true">{{brand.name}}</option>
         </select>
     </div>
@@ -28,6 +29,6 @@
         <input type="checkbox" class="form-check" id="brand_is_plublic" name="publish">
     </div>
     <div class="d-flex justify-content-end mt-5">
-    <button type="submit" class="btn btn-primary">Registrar</button>
+        <button type="submit" class="btn btn-primary">Registrar</button>
     </div>
-{% endblock %}
+    {% endblock %}

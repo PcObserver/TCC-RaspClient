@@ -13,3 +13,17 @@ class Device(db.Model):
     description = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.TIMESTAMP, server_default=func.now())
     updated_at = db.Column(db.TIMESTAMP, server_default=func.now(), onupdate=func.now())
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "brand": self.brand_id,
+        }
+    
+    def to_select2_dict(self):
+        return {
+            "id": self.id,
+            "text": self.name,
+        }

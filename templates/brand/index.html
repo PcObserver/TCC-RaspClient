@@ -2,27 +2,29 @@
 {% block title %}Escolha uma marca{% endblock %}
 {% block content %}
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('device.list_registered_devices')}}">Dispositivos</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Marcas</li>
-    </ol>
-</nav>  
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page"><a
+        href="{{url_for('user_device.list_registered_devices')}}">Dispositivos</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Marcas</li>
+  </ol>
+</nav>
 <h2 class="fw-bold text-body-emphasis mb-5">Escolha uma marca</h2>
 
 <form action="{{ url_for('device.list_devices_by_brand') }}" method="GET">
   <div class="mb-3">
-      <label for="device_type" class="form-label fw-bold">Marca do dispositivo</label>
-      <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span>
-      <a href="{{url_for('brand.create_brand')}}" class="text-decoration-none ms-2">Clique aqui<a>
-      <select class="form-select" id="brand" name="brand_id" required>
+    <label for="device_type" class="form-label fw-bold">Marca do dispositivo</label>
+    <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span>
+    <a href="{{url_for('brand.create_brand')}}" class="text-decoration-none ms-2">Clique aqui<a>
+        <select class="form-select" id="brand" name="brand_id" required>
           <option value="" selected>Selecione uma marca</option>
           {% for brand in brands %}
-              <option value="{{brand.id}}" selected="{{"true" if brand.id == selected_brand else none }}">{{brand.name}}</option>
+          <option value="{{brand.id}}" selected="{{" true" if brand.id==selected_brand else none }}">{{brand.name}}
+          </option>
           {% endfor %}
-      </select>
+        </select>
   </div>
   <div class="d-flex justify-content-end mt-5">
-  <button type="submit" class="btn btn-primary">Próximo</button>
+    <button type="submit" class="btn btn-primary">Próximo</button>
   </div>
 </form>
 

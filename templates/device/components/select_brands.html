@@ -1,0 +1,12 @@
+<div>
+    <label for="device_type" class="form-label fw-bold">Marca</label>
+    <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span>
+    <a href="{{url_for('brand.create_brand')}}" class="text-decoration-none ms-2">Clique aqui</a>
+    <select class="form-select" id="device" name="device" required>
+        <option value="" selected>Selecione um dispositivo</option>
+        {% for key,value in devices.items() %}
+        <option id="{{key}}" value="{{key}}" data-hostname="{{value[" hostname"]}}", data-ip="{{value[" ip"]}}",
+            data-port="{{value[" port"]}}" data-extra="{{value[" txt"]}}">{{key}}</option>
+        {% endfor %}
+    </select>
+</div>
