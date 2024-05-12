@@ -4,22 +4,22 @@
 <div class="container d-flex flex-column justify-content-center align-items-center">
     <div class="card rounded-5">
         <div class="card-body p-5">
-            <form action="{{url_for('setup.setup')}}", method="post">
+            <form action="{{url_for('application.connect_to_network')}}" , method="post">
                 <h3 class="mb-5">Configure o acesso a rede Wi-Fi</h3>
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="typeEmailX-2">SSID</label>
-                <select name="ssid" id="ssid" class="form-control form-control-lg">
-                    {% for ssid in available_ssids %}
+                    <label class="form-label" for="typeEmailX-2">SSID</label>
+                    <select name="ssid" id="ssid" class="form-control form-control-lg">
+                        {% for ssid in available_ssids %}
                         <option value="{{ssid}}">{{ssid}}</option>
-                    {% endfor %}
-                    <option value="other">Outro</option>
-                <select/>
+                        {% endfor %}
+                        <option value="other">Outro</option>
+                    </select>
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="typePasswordX-2">Senha</label>
-                <input type="password"  name="password" id="typePasswordX-2" class="form-control form-control-lg" />
+                    <label class="form-label" for="typePasswordX-2">Senha</label>
+                    <input type="password" name="password" id="typePasswordX-2" class="form-control form-control-lg" />
                 </div>
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-lg btn-primary rounded-pill mt-2 w-75">Connectar</button>

@@ -2,7 +2,7 @@
 {% block title %}Homepage{% endblock %}
 {% block content %}
 <div class="container d-flex flex-column justify-content-center align-items-center gap-5">
-    <div><img src= "{{ url_for('static',filename='images/logo.png') }}"></div>
-    <a class="btn btn-lg px-5 btn-light rounded-pill" href="{{ url_for('setup.setup')}}">Iniciar</a>
+    <div><img src="{{ url_for('static',filename='images/logo.png') }}"></div>
+    <a class="btn btn-lg px-5 btn-light rounded-pill" href="{{ url_for('application.list_networks')}}">Iniciar</a>
 </div>
 {% endblock %}

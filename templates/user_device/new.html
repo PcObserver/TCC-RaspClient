@@ -3,15 +3,15 @@
 {% block content %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item active" aria-current="page"><a
-        href="{{url_for('user_device.list_registered_devices')}}">Dispositivos</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('application.home')}}">Dispositivos</a>
+    </li>
     <li class="breadcrumb-item active" aria-current="page">Marcas</li>
   </ol>
 </nav>
 <h2 class="fw-bold text-body-emphasis">Encontrar dispositivos</h2>
 <subtitle class="fw-bold text-body-emphasis mb-5">Dispositivos conectados a sua rede</subtitle>
 
-<form action="{{ url_for('user_device.register_devices') }}" method="POST">
+<form action="{{ url_for('user_device.create') }}" method="POST">
   <div class="d-flex flex-column gap-4">
     <div>
       <label for="nickname" class="form-label fw-bold">Apelido</label>
@@ -19,8 +19,6 @@
     </div>
     <div>
       <label for="device_type" class="form-label fw-bold">Dispositivos</label>
-      <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span>
-      <a href="{{url_for('brand.create_brand')}}" class="text-decoration-none ms-2">Clique aqui</a>
       <select class="form-select" id="device" name="device" required>
         <option value="" selected>Selecione um dispositivo</option>
         {% for key,value in devices.items() %}
@@ -32,7 +30,7 @@
     <div>
       <label for="device_type" class="form-label fw-bold">Marca</label>
       <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span>
-      <a href="{{url_for('brand.create_brand')}}" class="text-decoration-none ms-2">Clique aqui</a>
+      <a href="{{url_for('brand.new')}}" class="text-decoration-none ms-2">Clique aqui</a>
       <select class="form-select select2-brands" id="brand" data-select2-id="brands" name="brand" required>
         <option value="" selected>Selecione uma marca</option>
       </select>
@@ -40,7 +38,7 @@
     <div>
       <label for="device_model" class="form-label fw-bold">Modelo</label>
       <span class="opacity-50 ms-2">Não encontrou o que está procurando?</span>
-      <a href="{{url_for('device.create_device')}}" class="text-decoration-none ms-2" id="new-model">Clique aqui</a>
+      <a href="{{url_for('device.new')}}" class="text-decoration-none ms-2" id="new-model">Clique aqui</a>
       <select class="form-select select2-devices" data-select2-id="devices" id="model" name="model" required>
         <option value="" selected>Selecione uma modelo</option>
       </select>
@@ -98,7 +96,7 @@
   $("#brand").change((e) => {
     selected_value = $("#brand").val();
     $("#model").val(null).trigger('change');
-    $("#new-model").prop("href", `{{url_for('device.create_device')}}?brand_id=${selected_value}`);
+    $("#new-model").prop("href", `{{url_for('device.new')}}?brand_id=${selected_value}`);
   });
 </script>
 {% endblock %}

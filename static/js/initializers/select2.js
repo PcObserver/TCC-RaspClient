@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     $('.select2-brands').select2({
         ajax: {
-            url: '/api/brands',
+            url: '/brands',
             dataType: 'json',
             delay: 250,
             data: function(params) {
@@ -20,7 +20,7 @@ $(document).ready(function() {
 
     $('.select2-devices').select2({
         ajax: {
-            url: '/api/devices',
+            url: '/devices',
             dataType: 'json',
             delay: 250,
             data: function(params) {

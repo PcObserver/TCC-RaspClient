@@ -4,13 +4,13 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item active" aria-current="page"><a
-                href="{{url_for('user_device.list_registered_devices')}}">Dispositivos</a></li>
+                href="{{url_for('application.home')}}">Dispositivos</a></li>
         <li class="breadcrumb-item active" aria-current="page">Ações</li>
         <li class="breadcrumb-item active" aria-current="page">Registrar</li>
     </ol>
 </nav>
 <h2 class="fw-bold text-body-emphasis mb-5">Registrar Comando</h2>
-<form action="{{ url_for('action.register', device_id=device_id)}}" method="POST">
+<form action="{{ url_for('action.create', device_id=device_id)}}" method="POST">
     <div class="mb-3">
         <label for="name" class="form-label">Nome da ação</label>
         <input type="text" class="form-control" id="name" name="name" required>
@@ -45,9 +45,13 @@
         <textarea class="form-control" id="payload_data" name="payload_data" rows="3"></textarea>
     </div>
     <div class="mb-3">
-        <label for="device_type" class="form-label">Dispositivo</label>
-        <select class="form-select disabled" id="device_type" name="brand_id" readonly>
-            <option value="{{device_id}}">{{device_id}}</option>
+        <label for="device_id" class="form-label">Dispositivo</label>
+        <select class="form-select disabled" id="device_id" name="device_id">
+            {% for device in devices %}
+            <option value="{{device.id}}" {{"selected=true" if device.id==selected_device_id else "" }}>
+                {{device.name}}
+            </option>
+            {% endfor %}
         </select>
     </div>
     <div class="mb-3">

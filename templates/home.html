@@ -1,0 +1,31 @@
+{% extends "./layout/base.html" %}
+{% block title %}Homepage{% endblock %}
+{% block content %}
+<h2 class="fw-bold text-body-emphasis mb-5">Dispositivos</h2>
+<div class="row align-items-center g-3 mb-4">
+    <div class="col mx-n4 mx-lg-n6 px-lg-6">
+        <div class="col-auto d-flex align-items-center justify-content-end">
+            <div class="col-auto">
+                <a href="{{url_for('user_device.new')}}" class="btn btn-primary">Adicionar dispositivo</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-9 mt-5 position-relative top-1 bg-">
+        {% for user_device in user_devices %}
+        <div class="card mb-3">
+            <a href="{{url_for('user_device.show', user_device_id=user_device.id)}}">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            {{user_device["nickname"]}} - {{user_device["hostname"]}}:{{user_device["port"]}}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
