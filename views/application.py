@@ -47,3 +47,7 @@ def connect_to_network():
         flash("Error: failed to connect to wifi network", 'error')
 
     return render_template("/setup/index.html")
+
+@application_blueprint.route("/settings", methods=['GET'])
+def settings():
+    return render_template("/settings/index.html")

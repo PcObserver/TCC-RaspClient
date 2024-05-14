@@ -15,6 +15,13 @@ def list_actions(device_id):
     }
     return render_template("action/index.html", **context)
 
+@action_blueprint.route("/actions/index", methods=["GET"])
+def index():
+    context = {
+        "actions": Action.query.all()
+    }
+    return render_template("action/index.html", **context)
+
 
 @action_blueprint.route("/action", methods=["GET"])
 def new():

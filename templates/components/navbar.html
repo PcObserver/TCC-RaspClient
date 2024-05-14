@@ -1,25 +1,52 @@
-<div class="d-flex flex-column flex-shrink-0 p-4 text-bg-dark bg-primary" style="width: 280px;">
-  <a href="/" class="d-flex align-items-center mb-5 me-md-auto text-white text-decoration-none">
+<div class="d-flex flex-column flex-shrink-0 p-4 text-bg-dark bg-primary justify-content-between" style="width: 280px;">
+  <a href="/" class="d-flex align-items-center mb-5 text-white text-decoration-none">
     <div class="bi pe-none me-2"><img src="{{ url_for('static',filename='images/logo.png') }}" height="32"></div>
     <span class="fs-4 ms-3 fw-bold">Iot Hub</span>
   </a>
-  <ul class="nav nav-pills flex-column mb-auto">
+  <ul class="nav nav-pills flex-column mb-4">
     <li class="nav-item">
-      <a href="{{url_for('application.home')}}" class="nav-link active fw-bold" aria-current="page">
-        <svg class="bi pe-none me-2" width="16" height="16">
-          <use xlink:href="#home"></use>
-        </svg>
-        Meus dispositivos
+      <a href="{{url_for('application.home')}}"
+        class="nav-link fw-bold text-white {{'active' if url_for(request.endpoint) == url_for('application.home') else ''}}"
+        aria-current="page">
+        <i class="bi bi-house me-2"></i>
+        Home
       </a>
     </li>
-    <li>
-      <a href="{{url_for('application.list_networks')}}" class="nav-link text-white fw-bold">
-        <svg class="bi pe-none me-2" width="16" height="16">
-          <use xlink:href="#table"></use>
-        </svg>
+  </ul>
+  <span class="fw-bold opacity-75 mb-2 fs-6">Biblioteca</span>
+  <ul class="nav nav-pills flex-column mb-4 gap-2">
+    <li class="nav-item">
+      <a href="{{url_for('brand.index')}}"
+        class="nav-link fw-bold text-white {{'active' if url_for(request.endpoint) == url_for('brand.index') else ''}}"
+        aria-current="page">
+        <i class="bi bi-box-seam me-2"></i>
+        Marcas
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{{url_for('device.index')}}"
+        class="nav-link fw-bold text-white {{'active' if url_for(request.endpoint) == url_for('device.index') else ''}}"
+        aria-current="page">
+        <i class="bi bi-usb-symbol me-2"></i>
+        Dispositivos
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{{url_for('action.index')}}"
+        class="nav-link fw-bold text-white {{'active' if url_for(request.endpoint) == url_for('action.index') else ''}}"
+        aria-current="page">
+        <i class="bi bi-dpad me-2"></i>
+        Comandos
+      </a>
+    </li>
+  </ul>
+  <ul class="nav nav-pills flex-column mb-2 mt-auto">
+    <li class="nav-item">
+      <a href="{{url_for('application.settings')}}"
+        class="nav-link text-white fw-bold {{'active' if url_for(request.endpoint) == url_for('application.settings') else ''}}">
+        <i class=" bi bi-gear me-2"></i>
         Configurações
       </a>
     </li>
   </ul>
-  <hr>
 </div>

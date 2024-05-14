@@ -11,6 +11,13 @@ device_blueprint = Blueprint("device", __name__)
 def list_devices():
     context = {"devices": [device.to_select2_dict() for device in Device.query.all()]}
     return jsonify(context)
+
+@device_blueprint.route("/devices/index")
+def index():
+    context = {
+        "devices": Device.query.all()
+    }
+    return render_template("device/index.html", **context)
     
 
 @device_blueprint.route("/device", methods=["GET"])

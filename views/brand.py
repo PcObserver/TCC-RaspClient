@@ -13,6 +13,13 @@ def list_brands():
     }
     return jsonify(context)
 
+@brand_blueprint.route("/brands/index")
+def index():
+    context = {
+        "brands": Brand.query.all()
+    }
+    return render_template("brand/index.html", **context)
+
 
 @brand_blueprint.route("/brand", methods=["GET"])
 def new():
