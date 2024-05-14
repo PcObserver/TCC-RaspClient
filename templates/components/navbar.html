@@ -6,7 +6,7 @@
   <ul class="nav nav-pills flex-column mb-4">
     <li class="nav-item">
       <a href="{{url_for('application.home')}}"
-        class="nav-link fw-bold text-white {{'active' if url_for(request.endpoint) == url_for('application.home') else ''}}"
+        class="nav-link fw-bold text-white {{'active' if url_for(request.endpoint, **request.view_args) == url_for('application.home') or url_for(request.endpoint, **request.view_args).startswith('/user_device') else ''}}"
         aria-current="page">
         <i class="bi bi-house me-2"></i>
         Home
@@ -17,7 +17,7 @@
   <ul class="nav nav-pills flex-column mb-4 gap-2">
     <li class="nav-item">
       <a href="{{url_for('brand.index')}}"
-        class="nav-link fw-bold text-white {{'active' if url_for(request.endpoint) == url_for('brand.index') else ''}}"
+        class="nav-link fw-bold text-white {{'active' if url_for(request.endpoint, **request.view_args).startswith('/brand') else ''}}"
         aria-current="page">
         <i class="bi bi-box-seam me-2"></i>
         Marcas
@@ -25,7 +25,7 @@
     </li>
     <li class="nav-item">
       <a href="{{url_for('device.index')}}"
-        class="nav-link fw-bold text-white {{'active' if url_for(request.endpoint) == url_for('device.index') else ''}}"
+        class="nav-link fw-bold text-white {{'active' if url_for(request.endpoint, **request.view_args).startswith('/device') else ''}}"
         aria-current="page">
         <i class="bi bi-usb-symbol me-2"></i>
         Dispositivos
@@ -33,7 +33,7 @@
     </li>
     <li class="nav-item">
       <a href="{{url_for('action.index')}}"
-        class="nav-link fw-bold text-white {{'active' if url_for(request.endpoint) == url_for('action.index') else ''}}"
+        class="nav-link fw-bold text-white {{'active' if url_for(request.endpoint, **request.view_args).startswith('/action') else ''}}"
         aria-current="page">
         <i class="bi bi-dpad me-2"></i>
         Comandos
@@ -43,7 +43,7 @@
   <ul class="nav nav-pills flex-column mb-2 mt-auto">
     <li class="nav-item">
       <a href="{{url_for('application.settings')}}"
-        class="nav-link text-white fw-bold {{'active' if url_for(request.endpoint) == url_for('application.settings') else ''}}">
+        class="nav-link text-white fw-bold {{'active' if url_for(request.endpoint, **request.view_args) == url_for('application.settings') else ''}}">
         <i class=" bi bi-gear me-2"></i>
         Configurações
       </a>
