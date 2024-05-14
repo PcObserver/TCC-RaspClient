@@ -22,20 +22,22 @@
     {% include "./components/navbar.html" %}
     <div class="d-flex flex-column vh-100 flex-grow-1">
         {% include "./components/topbar.html" %}
-        <div class="p-5 container d-flex flex-column overflow-y-scroll">
+        <div class="overflow-y-scroll">
+            <div class="p-5 container d-flex flex-column ">
 
-            {% block content %}{% endblock %}
-            <div aria-live="polite" aria-atomic="true" class="position-fixed fixed-bottom m-3">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                {% for category, message in messages %}
-                <div class="toast {{ 'toast-' + category }}" role="alert" aria-live="assertive" aria-atomic="true"
-                    data-bs-autohide="true" data-bs-delay="5000">
-                    <div class="toast-body">
-                        {{ message }}
+                {% block content %}{% endblock %}
+                <div aria-live="polite" aria-atomic="true" class="position-fixed fixed-bottom m-3">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% for category, message in messages %}
+                    <div class="toast {{ 'toast-' + category }}" role="alert" aria-live="assertive" aria-atomic="true"
+                        data-bs-autohide="true" data-bs-delay="5000">
+                        <div class="toast-body">
+                            {{ message }}
+                        </div>
                     </div>
+                    {% endfor %}
+                    {% endwith %}
                 </div>
-                {% endfor %}
-                {% endwith %}
             </div>
         </div>
     </div>
