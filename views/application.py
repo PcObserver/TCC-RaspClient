@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, request, flash, redirect,url_for
+from flask import Blueprint, render_template, request, flash, redirect,url_for, Response
 from models.user_device import UserDevice
 import utils.network as network
 import requests
 from flask import session
-
+from flask_htmx import make_response
 application_blueprint = Blueprint("application", __name__)
 
 
@@ -55,6 +55,14 @@ def settings():
     return render_template("/settings/index.html")
 
 
+@application_blueprint.after_request
+def render_messages(response: Response) -> Response:
+    if request.headers.get("HX-Request") and response.data.find(b"div id=\"alerts\"") == -1:
+        messages = render_template("components/alerts.jinja2")
+        response.data = response.data + messages.encode("utf-8")
+    return response
+
+
 @application_blueprint.route("/auth-modal", methods=['GET'])
 def auth_modal():
     return render_template("/components/modal.html")
@@ -71,17 +79,16 @@ def login():
                 "password": request.form['password']
             }
             response = requests.post('http://localhost:8000/api/users/log_in/', data=data)
-            print(response.json())
-            session['access_token'] = response.json()['access']
-            session['refresh_token'] = response.json()['refresh']
-            if response.status_code != 200:
+            if response.json().get('detail'):
                 flash(response.json()['detail'], 'error')
             else:
+                session['access_token'] = response.json()['access']
+                session['refresh_token'] = response.json()['refresh']
                 flash("Login successful", 'success')
-            return redirect(url_for("application.home"))
+            return make_response(render_template("/auth/login_form.html"), push_url=False, trigger={"close-modal": "true"})
         except Exception as e:
             flash(str(e), 'error')
-            return redirect(url_for("application.home"))
+            return render_template("/auth/login_form.html")
         
     
 
@@ -99,10 +106,10 @@ def register():
             }
             response = requests.post('http://localhost:8000/api/users/sign_up/', data=data)
             if response.status_code != 201:
-                flash(response.json(), 'error')
+                raise Exception(response.json())
             else:
                 flash("User created successfully", 'success')
-            return redirect(url_for("application.home"))
+            return make_response(render_template("/auth/register_form.html"), push_url=False, trigger={"close-modal": "true"})
         except Exception as e:
             flash(str(e), 'error')
-            return redirect(url_for("application.home"))
+            return render_template("/auth/register_form.html")

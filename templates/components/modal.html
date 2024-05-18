@@ -15,11 +15,11 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="profile-tab"
-                    hx-get="{{url_for('application.login')}}" hx-trigger="load">
+                    hx-get="{{url_for('application.login')}}" hx-trigger="revealed">
 
                 </div>
                 <div class="tab-pane" id="register" role="tabpanel" aria-labelledby="profile-tab"
-                    hx-get="{{url_for('application.register')}}" hx-trigger="load">
+                    hx-get="{{url_for('application.register')}}" hx-trigger="revealed">
                 </div>
             </div>
         </div>

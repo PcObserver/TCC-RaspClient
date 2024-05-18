@@ -1,0 +1,13 @@
+<div id="alerts" class="toast-container position-absolute top-0 end-0 p-3" style="z-index: 100;"
+hx-swap-oob="afterbegin">
+{% with messages = get_flashed_messages(with_categories=True) %}
+{% for category, message in messages %}
+<div class="toast {{ 'toast-' + category }}" role="alert" aria-live="assertive" aria-atomic="true"
+    data-bs-autohide="true" data-bs-delay="5000">
+    <div class="toast-body">
+        {{ message }}
+    </div>
+</div>
+{% endfor %}
+{% endwith %}
+</div>

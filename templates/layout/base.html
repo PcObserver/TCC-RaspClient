@@ -26,33 +26,52 @@
         <div class="overflow-y-scroll">
             <div class="p-5 container d-flex flex-column ">
                 {% block content %}{% endblock %}
-                <div aria-live="polite" aria-atomic="true" class="position-fixed fixed-bottom m-3">
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% for category, message in messages %}
-                    <div class="toast {{ 'toast-' + category }}" role="alert" aria-live="assertive" aria-atomic="true"
-                        data-bs-autohide="true" data-bs-delay="5000">
-                        <div class="toast-body">
-                            {{ message }}
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% endwith %}
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="auth-modal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content"></div>
             </div>
         </div>
     </div>
+    <div id="alerts" class="toast-container position-absolute top-0 end-0 p-3" style="z-index: 1100;"
+        hx-swap-oob="afterbegin">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% for category, message in messages %}
+        <div class="toast {{ 'toast-' + category }}" role="alert" aria-live="assertive" aria-atomic="true"
+            data-bs-autohide="true" data-bs-delay="5000">
+            <div class="toast-body">
+                {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+        {% endwith %}
+    </div>
+    <div class="modal fade" id="auth-modal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-            var toastList = toastElList.map(function (toastEl) {
-                return new bootstrap.Toast(toastEl)
-            })
-            toastList.forEach(toast => toast.show());
+        $('.toast').map(function (index, element) {
+            if (element.classList.contains('hide')) { return; }
+            let toast = new bootstrap.Toast(element);
+            toast.show();
+            setTimeout(function () { element.remove(); }, 15 * 1000);
+        });
+
+        // HTMX requests
+        htmx.onLoad(function (content) {
+            [content].map(el => {
+                if (el.classList.contains('toast')) {
+                    let toast = new bootstrap.Toast(el);
+                    toast.show();
+                    setTimeout(function () {
+                        el.remove();
+                    }, 15 * 1000);
+                }
+            });
+        });
+
+        // Modal
+        htmx.on('close-modal', function (event) {
+            $('#auth-modal').modal('hide');
         });
     </script>
 </body>
