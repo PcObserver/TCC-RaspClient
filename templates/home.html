@@ -34,7 +34,10 @@
                             </a>
                         </h5>
                         <p class="card-text">
-                            {{user_device["hostname"]}}:{{user_device["port"]}}</p>
+                            {{user_device.device.name}} - {{user_device.device.brand.name}}</p>
+                        <p class="card-text">
+                            {{user_device.hostname}}:{{user_device.port}}</p>
+
                     </div>
                     <div class="dropdown">
                         <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">

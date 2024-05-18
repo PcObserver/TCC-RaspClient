@@ -25,12 +25,11 @@
 
 <div>
     <h3 class="fw-bold text-body-emphasis mt-5">Comandos</h3>
-    <a href="{{url_for('action.new', device_id=user_device.device_id)}}" class="">Adicionar comando</a>
-
-    <div class="d-flex flex-column gap-2">
+    <div class="d-flex gap-2">
         {% for command in commands %}
         <a href="{{url_for('user_device.call_action', user_device_id=user_device.id, action_id=command.id)}}"
-            class="btn btn-primary">{{command.name}}</a>
+            class="bg-dark bg-opacity-10 shadow-sm p-4 roudend rounded-pill text-dark text-decoration-none fw-bold fs-5">{{command.name}}
+            <i class="bi bi-play-fill ms-4 fw-bold"></i></a>
         {% endfor %}
     </div>
 </div>

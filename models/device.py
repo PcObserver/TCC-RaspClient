@@ -14,6 +14,7 @@ class Device(db.Model):
     created_at = db.Column(db.TIMESTAMP, server_default=func.now())
     updated_at = db.Column(db.TIMESTAMP, server_default=func.now(), onupdate=func.now())
     brand = db.relationship("Brand", backref="devices")
+    user_devices = db.relationship("UserDevice", back_populates="device")
 
     def to_dict(self):
         return {

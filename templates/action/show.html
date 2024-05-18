@@ -27,9 +27,8 @@
     </div>
     <div class="mb-3">
         <label for="description" class="form-label">Descrição</label>
-        <textarea class="form-control" id="description" name="description" rows="3" required>
-            {{action.description}}
-        </textarea>
+        <textarea class="form-control" id="description" name="description" rows="3"
+            required>{{action.description}}</textarea>
     </div>
     <div>
         <label for="request_method" class="form-label">Método</label>
@@ -64,9 +63,7 @@
     <div class="mb-3">
         <label for="payload" class="form-label">Payload</label>
         <span class="ms-3" onclick="prettyPrint()"><i class="bi bi-stars"></i></span>
-        <textarea class="form-control" id="payload" name="payload" rows="6">
-            {{action.payload}}
-        </textarea>
+        <textarea class="form-control" id="payload" name="payload" rows="6">{{action.payload}}</textarea>
     </div>
     <div class="d-flex justify-content-end mt-5">
         <button type="submit" class="btn btn-primary">Atualizar</button>
