@@ -59,12 +59,14 @@ def create():
 def show(action_id):
     action = Action.query.get(UUID(action_id))
     context = {
-        "action": action
+        "action": action,
+        "request_methods": [method.value for method in RequestMethod],
+        "connection_protocols": [protocol.value for protocol in ConnectionProtocol]
     }
     return render_template("action/show.html", **context)
 
 
-@action_blueprint.route("/action/<action_id>", methods=["PUT"])
+@action_blueprint.route("/action/<action_id>", methods=["POST"])
 def update(action_id):
     try:
         action = Action.query.get(UUID(action_id))

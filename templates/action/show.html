@@ -6,34 +6,37 @@
         <li class="breadcrumb-item active" aria-current="page"><a
                 href="{{url_for('application.home')}}">Dispositivos</a></li>
         <li class="breadcrumb-item active" aria-current="page">Ações</li>
-        <li class="breadcrumb-item active" aria-current="page">Registrar</li>
+        <li class="breadcrumb-item active" aria-current="page">Editar</li>
     </ol>
 </nav>
 <div class="d-flex justify-content-center">
     <div class="col">
-        <h2 class="fw-bold text-body-emphasis mb-5">Registrar Comando</h2>
+        <h2 class="fw-bold text-body-emphasis mb-5">Editar Comando</h2>
     </div>
     <div class="">
         <a class="btn btn-outline-danger" hx-delete="{{url_for('action.delete', action_id=action.id)}}" hx-target="body"
             hx-push-url="true">
-            Excluir ação
+            Excluir comando
         </a>
     </div>
 </div>
-<form action="{{ url_for('action.create', device_id=device_id)}}" method="POST">
+<form action="{{ url_for('action.update', action_id=action.id)}}" method="POST">
     <div class="mb-3">
         <label for="name" class="form-label">Nome da ação</label>
-        <input type="text" class="form-control" id="name" name="name" required>
+        <input type="text" class="form-control" id="name" name="name" value="{{action.name}}" required>
     </div>
     <div class="mb-3">
         <label for="description" class="form-label">Descrição</label>
-        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        <textarea class="form-control" id="description" name="description" rows="3" required>
+            {{action.description}}
+        </textarea>
     </div>
     <div>
         <label for="request_method" class="form-label">Método</label>
         <select class="form-select" id="request_method" name="request_method" required>
             {% for method in request_methods %}
-            <option value="{{method}}">{{method}}</option>
+            <option value="{{method}}" {{"selected=true" if method==action.request_method.value else "" }}>
+                {{method}}</option>
             {% endfor %}
         </select>
     </div>
@@ -41,34 +44,41 @@
         <label for="connection_protocol" class="form-label">Protocolo</label>
         <select class="form-select" id="connection_protocol" name="connection_protocol" required>
             {% for protocol in connection_protocols %}
-            <option value="{{protocol}}">{{protocol}}</option>
+            <option value="{{protocol}}" {{"selected=true" if protocol==action.connection_protocol.value else "" }}>
+                {{protocol}}
+            </option>
             {% endfor %}
         </select>
     </div>
 
     <div class="mb-3">
         <label for="path" class="form-label">Rota</label>
-        <input type="text" class="form-control" id="path" name="path" required>
+        <input type="text" class="form-control" id="path" name="path" value="{{action.path}}" required>
     </div>
     <div class="mb-3">
-        <label for="payload_data" class="form-label">Payload</label>
-        <textarea class="form-control" id="payload_data" name="payload_data" rows="3"></textarea>
-    </div>
-    <div class="mb-3">
-        <label for="device_id" class="form-label">Dispositivo</label>
-        <select class="form-select disabled" id="device_id" name="device_id">
-            {% for device in devices %}
-            <option value="{{device.id}}" {{"selected=true" if device.id==selected_device_id else "" }}>
-                {{device.name}}
-            </option>
-            {% endfor %}
+        <label for="device_model" class="form-label">Modelo</label>
+        <select class="form-select select2-devices" data-select2-id="devices" id="model" name="model" required>
+            <option value="{{action.device_id}}" selected="selectd">{{action.device.name}}</option>
         </select>
     </div>
     <div class="mb-3">
-        <label for="brand_name" class="form-label fw-bold">Publicar no repositorio remoto</label>
-        <input type="checkbox" class="form-check" id="brand_is_plublic" name="publish">
+        <label for="payload" class="form-label">Payload</label>
+        <span class="ms-3" onclick="prettyPrint()"><i class="bi bi-stars"></i></span>
+        <textarea class="form-control" id="payload" name="payload" rows="6">
+            {{action.payload}}
+        </textarea>
     </div>
     <div class="d-flex justify-content-end mt-5">
-        <button type="submit" class="btn btn-primary">Registrar</button>
+        <button type="submit" class="btn btn-primary">Atualizar</button>
     </div>
-    {% endblock %}
+    </div>
+</form>
+
+<script>
+    function prettyPrint() {
+        var payload = document.getElementById('payload').value;
+        var prettyPayload = JSON.stringify(JSON.parse(payload), null, 2);
+        document.getElementById('payload').value = prettyPayload;
+    }
+</script>
+{% endblock %}

@@ -41,10 +41,6 @@
         <input type="text" class="form-control" id="path" name="path" required>
     </div>
     <div class="mb-3">
-        <label for="payload_data" class="form-label">Payload</label>
-        <textarea class="form-control" id="payload_data" name="payload_data" rows="3"></textarea>
-    </div>
-    <div class="mb-3">
         <label for="device_id" class="form-label">Dispositivo</label>
         <select class="form-select disabled" id="device_id" name="device_id">
             {% for device in devices %}
@@ -55,10 +51,24 @@
         </select>
     </div>
     <div class="mb-3">
+        <label for="payload" class="form-label">Payload</label>
+        <span class="ms-3" onclick="prettyPrint()"><i class="bi bi-stars"></i></span>
+        <textarea class="form-control" id="payload" name="payload" rows="3"></textarea>
+    </div>
+    <div class="mb-3">
         <label for="brand_name" class="form-label fw-bold">Publicar no repositorio remoto</label>
         <input type="checkbox" class="form-check" id="brand_is_plublic" name="publish">
     </div>
     <div class="d-flex justify-content-end mt-5">
         <button type="submit" class="btn btn-primary">Registrar</button>
     </div>
-    {% endblock %}
+
+</form>
+<script>
+    function prettyPrint() {
+        var payload = document.getElementById('payload');
+        var payloadValue = payload.value;
+        payload.value = JSON.stringify(JSON.parse(payloadValue), null, 2);
+    }
+</script>
+{% endblock %}

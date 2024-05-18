@@ -1,5 +1,5 @@
 {% extends "./layout/base.html" %}
-{% block title %}Cadastre uma marca{% endblock %}
+{% block title %}Editar marca{% endblock %}
 {% block content %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
@@ -20,21 +20,17 @@
     </a>
   </div>
 </div>
-<form action="{{ url_for('brand.create') }}" method="POST">
+<form action="{{ url_for('brand.update', brand_id=brand.id) }}" method="POST">
   <div class="mb-3">
     <label for="brand_name" class="form-label fw-bold">Nome da marca</label>
-    <input type="text" class="form-control" id="brand_name" name="name" required>
+    <input type="text" class="form-control" id="brand_name" name="name" value="{{brand.name}}" required>
   </div>
   <div class="mb-3">
     <label for="brand_name" class="form-label fw-bold">Prefixo</label>
-    <input type="text" class="form-control" id="brand_prefix" name="prefix" required>
-  </div>
-  <div class="mb-3">
-    <label for="brand_name" class="form-label fw-bold">Publicar no repositorio remoto</label>
-    <input type="checkbox" class="form-check" id="brand_is_plublic" name="publish">
+    <input type="text" class="form-control" id="brand_prefix" name="prefix" value="{{brand.prefix}}" required>
   </div>
   <div class="d-flex justify-content-end mt-5">
-    <button type="submit" class="btn btn-primary">Cadastrar</button>
+    <button type="submit" class="btn btn-primary">Editar</button>
   </div>
 </form>
 {% endblock %}

@@ -3,6 +3,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from models.device import Device
 from models.brand import Brand
 from application import db
+from sqlalchemy.orm import joinedload
+
 
 device_blueprint = Blueprint("device", __name__)
 
@@ -48,26 +50,26 @@ def create():
 
 @device_blueprint.route("/device/<device_id>", methods=["GET"])
 def show(device_id):
-    device = Device.query.get(UUID(device_id))
+    device = Device.query.options(joinedload(Device.brand)).get(UUID(device_id))
     context = {
-        "device": device
+        "device": device,
     }
     return render_template("device/show.html", **context)
 
 
-@device_blueprint.route("/device/<device_id>", methods=["PUT"])
+@device_blueprint.route("/device/<device_id>", methods=["POST"])
 def update(device_id):
     try:
         device = Device.query.get(UUID(device_id))
         device.name = request.form.get("name")
-        device.brand_id = UUID(request.form.get("brand_id"))
         device.description = request.form.get("description")
+        device.brand_id = UUID(request.form.get("brand_id"))
         db.session.commit()
         flash("Device updated successfully", "success")
         return redirect(url_for("device.show", device_id=device.id))
     except Exception as e:
-        flash(e)
-        return redirect(url_for("device.show", device_id=device.id))
+        flash(str(e), "danger")
+        return render_template('device/show.html', device=Device.query.get(UUID(device_id)))
     
 
 @device_blueprint.route("/device/<device_id>", methods=["DELETE"])

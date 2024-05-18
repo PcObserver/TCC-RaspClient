@@ -50,17 +50,17 @@ def show(brand_id):
     return render_template("brand/show.html", **context)
 
 
-@brand_blueprint.route("/brand/<brand_id>", methods=["PUT"])
+@brand_blueprint.route("/brand/<brand_id>", methods=["POST"])
 def update(brand_id):
     try:
-        brand = Brand.query.get(brand_id)
+        brand = Brand.query.get(UUID(brand_id))
         brand.name = request.form.get("name")
         brand.prefix = request.form.get("prefix")
         db.session.commit()
         flash("Marca atualizada com sucesso", "success")
         return redirect(url_for("brand.show", brand_id=brand.id))
     except Exception as e:
-        flash(e)
+        flash(str(e), "danger")
         return redirect(url_for("brand.show", brand_id=brand.id))
 
 

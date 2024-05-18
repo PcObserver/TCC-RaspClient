@@ -33,4 +33,5 @@ class Action(db.Model):
     connection_protocol = db.Column(db.Enum(ConnectionProtocol), default=ConnectionProtocol.HTTP)
     created_at = db.Column(db.TIMESTAMP, server_default=func.now())
     updated_at = db.Column(db.TIMESTAMP, server_default=func.now(), onupdate=func.now())
+    device = db.relationship("Device", backref="actions")
 

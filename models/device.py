@@ -13,6 +13,7 @@ class Device(db.Model):
     description = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.TIMESTAMP, server_default=func.now())
     updated_at = db.Column(db.TIMESTAMP, server_default=func.now(), onupdate=func.now())
+    brand = db.relationship("Brand", backref="devices")
 
     def to_dict(self):
         return {
