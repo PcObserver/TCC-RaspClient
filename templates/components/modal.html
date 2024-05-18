@@ -1,66 +1,25 @@
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body pb-4">
-                <ul class="nav nav-tabs justify-content-around mb-5" id="myTab" role="tablist">
-                    <li class="nav-item flex-grow-1" role="presentation">
-                        <button class="nav-link w-100 active link-opacity-75 link-dark" id="login-tab"
-                            data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login"
-                            aria-selected="true">Login</button>
-                    </li>
-                    <li class="nav-item flex-grow-1" role="presentation">
-                        <button class="nav-link w-100 link-opacity-75 link-dark" id="register-tab" data-bs-toggle="tab"
-                            data-bs-target="#register" type="button" role="tab" aria-controls="register"
-                            aria-selected="false">Registrar</button>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="profile-tab">
-                        <h6 class="text-center px-4 py-2">Faça login para contribuir com o repositorio remoto =)</h6>
-                        <form action="{{url_for('application.login')}}" method="POST"
-                            class="p-4 pt-2 gap-4 d-flex flex-column">
-                            <div class="d-flex flex-column">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    aria-describedby="emailHelp">
-                            </div>
-                            <div class="d-flex flex-column">
-                                <label for="password" class="form-label">Senha</label>
-                                <input type="password" class="form-control" name="password" id="password">
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">Logar</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-pane" id="register" role="tabpanel" aria-labelledby="profile-tab">
-                        <form action="{{url_for('application.register')}}" method="POST"
-                            class="p-4 pt-2 gap-4 d-flex flex-column">
-                            <div class="d-flex flex-column">
-                                <label for="name" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="name" name="name">
-                            </div>
-                            <div class="d-flex flex-column">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    aria-describedby="emailHelp">
-                            </div>
-                            <div class="d-flex flex-column">
-                                <label for="password" class="form-label">Senha</label>
-                                <input type="password" class="form-control" id="password" name="password">
-                            </div>
-                            <div class="d-flex flex-column">
-                                <label for="password" class="form-label">Confirme a senha</label>
-                                <input type="password" class="form-control" id="password" name="password_confirmation">
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">Registrar</button>
-                            </div>
-                        </form>
-                    </div>
+<div class="modal-dialog  modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body pb-4">
+            <ul class="nav nav-tabs justify-content-around mb-5" id="myTab" role="tablist">
+                <li class="nav-item flex-grow-1" role="presentation">
+                    <button class="nav-link w-100 active link-opacity-75 link-dark" id="login-tab" data-bs-toggle="tab"
+                        data-bs-target="#login" type="button" role="tab" aria-controls="login"
+                        aria-selected="true">Login</button>
+                </li>
+                <li class="nav-item flex-grow-1" role="presentation">
+                    <button class="nav-link w-100 link-opacity-75 link-dark" id="register-tab" data-bs-toggle="tab"
+                        data-bs-target="#register" type="button" role="tab" aria-controls="register"
+                        aria-selected="false">Registrar</button>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="profile-tab"
+                    hx-get="{{url_for('application.login')}}" hx-trigger="load">
+
+                </div>
+                <div class="tab-pane" id="register" role="tabpanel" aria-labelledby="profile-tab"
+                    hx-get="{{url_for('application.register')}}" hx-trigger="load">
                 </div>
             </div>
         </div>

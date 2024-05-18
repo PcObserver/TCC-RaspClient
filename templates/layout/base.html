@@ -25,7 +25,6 @@
         {% include "./components/topbar.html" %}
         <div class="overflow-y-scroll">
             <div class="p-5 container d-flex flex-column ">
-                {% include "./components/modal.html" %}
                 {% block content %}{% endblock %}
                 <div aria-live="polite" aria-atomic="true" class="position-fixed fixed-bottom m-3">
                     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -39,6 +38,11 @@
                     {% endfor %}
                     {% endwith %}
                 </div>
+            </div>
+        </div>
+        <div class="modal fade" id="auth-modal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content"></div>
             </div>
         </div>
     </div>

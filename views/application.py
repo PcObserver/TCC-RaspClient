@@ -54,42 +54,55 @@ def connect_to_network():
 def settings():
     return render_template("/settings/index.html")
 
-@application_blueprint.route("/login", methods=['POST'])
+
+@application_blueprint.route("/auth-modal", methods=['GET'])
+def auth_modal():
+    return render_template("/components/modal.html")
+
+
+@application_blueprint.route("/login", methods=['GET', 'POST'])
 def login():
-    try:
-        data = {
-            "email":  request.form['email'],
-            "password": request.form['password']
-        }
-        response = requests.post('http://localhost:8000/api/users/log_in/', data=data)
-        print(response.json())
-        session['access_token'] = response.json()['access']
-        session['refresh_token'] = response.json()['refresh']
-        if response.status_code != 200:
-            flash(response.json()['detail'], 'error')
-        else:
-            flash("Login successful", 'success')
-        return redirect(url_for("application.home"))
-    except Exception as e:
-        flash(str(e), 'error')
-        return redirect(url_for("application.home"))
+    if request.method == 'GET':
+        return render_template("/auth/login_form.html")
+    elif request.method == 'POST':
+        try:
+            data = {
+                "email":  request.form['email'],
+                "password": request.form['password']
+            }
+            response = requests.post('http://localhost:8000/api/users/log_in/', data=data)
+            print(response.json())
+            session['access_token'] = response.json()['access']
+            session['refresh_token'] = response.json()['refresh']
+            if response.status_code != 200:
+                flash(response.json()['detail'], 'error')
+            else:
+                flash("Login successful", 'success')
+            return redirect(url_for("application.home"))
+        except Exception as e:
+            flash(str(e), 'error')
+            return redirect(url_for("application.home"))
+        
     
 
-@application_blueprint.route("/register", methods=['POST'])
+@application_blueprint.route("/register", methods=['GET','POST'])
 def register():
-    try:
-        data = {
-            "name": request.form['name'],
-            "email": request.form['email'],
-            "password": request.form['password'],
-            "password_confirmation": request.form['password_confirmation']
-        }
-        response = requests.post('http://localhost:8000/api/users/sign_up/', data=data)
-        if response.status_code != 201:
-            flash(response.json(), 'error')
-        else:
-            flash("User created successfully", 'success')
-        return redirect(url_for("application.home"))
-    except Exception as e:
-        flash(str(e), 'error')
-        return redirect(url_for("application.home"))
+    if request.method == 'GET':
+        return render_template("/auth/register_form.html")
+    elif request.method == 'POST':
+        try:
+            data = {
+                "name": request.form['name'],
+                "email": request.form['email'],
+                "password": request.form['password'],
+                "password_confirmation": request.form['password_confirmation']
+            }
+            response = requests.post('http://localhost:8000/api/users/sign_up/', data=data)
+            if response.status_code != 201:
+                flash(response.json(), 'error')
+            else:
+                flash("User created successfully", 'success')
+            return redirect(url_for("application.home"))
+        except Exception as e:
+            flash(str(e), 'error')
+            return redirect(url_for("application.home"))
