@@ -89,7 +89,7 @@ def delete(action_id):
         db.session.delete(action)
         db.session.commit()
         flash("Action deleted successfully", "success")
-        return redirect(url_for("user_device.list_user_devices"))
+        return redirect(url_for("action.index"), code=303)
     except Exception as e:
-        flash(e)
-        return redirect(url_for("user_device.list_user_devices"))
+        flash(str(e), "error")
+        return render_template("action/show.html", action=Action.query.get(UUID(action_id)))

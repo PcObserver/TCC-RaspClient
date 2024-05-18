@@ -67,11 +67,11 @@ def update(brand_id):
 @brand_blueprint.route("/brand/<brand_id>", methods=["DELETE"])
 def delete(brand_id):
     try:
-        brand = Brand.query.get(brand_id)
+        brand = Brand.query.get(UUID(brand_id))
         db.session.delete(brand)
         db.session.commit()
         flash("Marca deletada com sucesso", "success")
-        return redirect(url_for("user_device.list_user_devices"))
+        return redirect(url_for("brand.index"), code=303)
     except Exception as e:
-        flash(e)
-        return redirect(url_for("user_device.list_user_devices"))
+        flash(str(e), "danger")
+        return render_template("brand/show.html", brand=Brand.query.get(UUID(brand_id)))

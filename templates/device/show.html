@@ -8,7 +8,18 @@
         <li class="breadcrumb-item active" aria-current="page">Registrar</li>
     </ol>
 </nav>
-<h2 class="fw-bold text-body-emphasis mb-5">Registrar Dispositivo</h2>
+<div class="d-flex justify-content-between">
+    <div class="col">
+        <h2 class="fw-bold text-body-emphasis mb-5">Registrar Dispositivo</h2>
+    </div>
+    <div class="">
+        <a class="btn btn-outline-danger" hx-delete="{{url_for('device.delete', device_id=device.id)}}" hx-target="body"
+            hx-push-url="true">
+            Excluir dispositivo
+        </a>
+    </div>
+</div>
+
 <form action="{{ url_for('device.create') }}" method="POST">
     <div class="mb-3">
         <label for="device_name" class="form-label">Apelido do dispositivo</label>

@@ -49,9 +49,9 @@ def show(user_device_id):
 
 
 @user_device_blueprint.route("/user_device/<user_device_id>", methods=["PUT"])
-def update(device_id):
+def update(user_device_id):
     try:
-        user_device = UserDevice.query.get(UUID(device_id))
+        user_device = UserDevice.query.get(UUID(user_device_id))
         user_device.hostname = request.form.get("hostname")
         user_device.nickname = request.form.get("nickname")
         user_device.device_id = UUID(request.form.get("model"))
@@ -66,16 +66,16 @@ def update(device_id):
     
 
 @user_device_blueprint.route("/user_device/<user_device_id>", methods=["DELETE"])
-def delete(device_id):
+def delete(user_device_id):
     try:
-        user_device = UserDevice.query.get(UUID(device_id))
+        user_device = UserDevice.query.get(UUID(user_device_id))
         db.session.delete(user_device)
         db.session.commit()
         flash("Device deleted successfully", "success")
-        return redirect(url_for("user_device.list_user_devices"))
+        return redirect(url_for("application.home"), code=303)
     except Exception as e:
         flash(e)
-        return redirect(url_for("user_device.list_user_devices"))
+        return redirect(url_for("user_device.show", user_device_id=user_device.id), code=303)
 
 
 @user_device_blueprint.route("/user_device/<user_device_id>/action/<action_id>/", methods=["GET"])

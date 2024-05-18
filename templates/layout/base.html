@@ -25,9 +25,7 @@
         {% include "./components/topbar.html" %}
         <div class="overflow-y-scroll">
             <div class="p-5 container d-flex flex-column ">
-                <div id="main-content">
-                    {% block content %}{% endblock %}
-                </div>
+                {% block content %}{% endblock %}
                 <div aria-live="polite" aria-atomic="true" class="position-fixed fixed-bottom m-3">
                     {% with messages = get_flashed_messages(with_categories=true) %}
                     {% for category, message in messages %}

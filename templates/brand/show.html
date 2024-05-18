@@ -9,7 +9,17 @@
     <li class="breadcrumb-item active" aria-current="page">Marcas</li>
   </ol>
 </nav>
-<h2 class="fw-bold text-body-emphasis mb-5">Cadastre uma marca</h2>
+<div class="d-flex justify-content-between">
+  <div class="col">
+    <h2 class="fw-bold text-body-emphasis mb-5">Cadastre uma marca</h2>
+  </div>
+  <div class="">
+    <a class="btn btn-outline-danger" hx-delete="{{url_for('brand.delete', brand_id=brand.id)}}" hx-target="body"
+      hx-push-url="true">
+      Excluir marca
+    </a>
+  </div>
+</div>
 <form action="{{ url_for('brand.create') }}" method="POST">
   <div class="mb-3">
     <label for="brand_name" class="form-label fw-bold">Nome da marca</label>

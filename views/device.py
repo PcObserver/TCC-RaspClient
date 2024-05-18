@@ -77,7 +77,7 @@ def delete(device_id):
         db.session.delete(device)
         db.session.commit()
         flash("Device deleted successfully", "success")
-        return redirect(url_for("device.list_devices"))
+        return redirect(url_for("device.index"), code=303)
     except Exception as e:
-        flash(e)
-        return redirect(url_for("device.show", device_id=device.id))
+        flash(str(e), "danger")
+        return render_template("device/show.html", device=Device.query.get(device_id))

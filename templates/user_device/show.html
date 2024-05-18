@@ -1,8 +1,18 @@
 {% extends "./layout/base.html" %}
 {% block title %}Detalhes{% endblock %}
 {% block content %}
-<h2 class="fw-bold text-body-emphasis">{{user_device.nickname}}</h2>
-<subtitle class="fw-bold text-body-emphasis mb-5">Detalhes do dispositivo</subtitle>
+<div class="d-flex justify-content-between">
+    <div class="col">
+        <h2 class="fw-bold text-body-emphasis">{{user_device.nickname}}</h2>
+        <subtitle class="fw-bold text-body-emphasis mb-5">Detalhes do dispositivo</subtitle>
+    </div>
+    <div class="">
+        <a class="btn btn-outline-danger" hx-delete="{{url_for('user_device.delete', user_device_id=user_device.id)}}"
+            hx-target="body" hx-push-url="true">
+            Desconectar dispositivo
+        </a>
+    </div>
+</div>
 
 <div>
     <label for="hostname" class="form-label fw-bold">Hostname</label>
