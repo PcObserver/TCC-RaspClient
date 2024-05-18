@@ -80,15 +80,20 @@ def delete(user_device_id):
 
 @user_device_blueprint.route("/user_device/<user_device_id>/action/<action_id>/", methods=["GET"])
 def call_action(user_device_id, action_id):
-    action = Action.query.get(UUID(action_id))
-    device = UserDevice.query.get(UUID(user_device_id))
+    try:
+        action = Action.query.get(UUID(action_id))
+        device = UserDevice.query.get(UUID(user_device_id))
 
-    url = f"http://{device.address}:{device.port}{action.path}"
-    if action.request_method == RequestMethod.GET:
-        response = requests.get(url)
-    else:
-        payload = json.loads(action.payload.replace('\r\n', ''))
-        response = requests.post(url, data=payload)
+        url = f"{action.connection_protocol.value.lower()}://{device.address}:{device.port}{action.path}"
+        if action.request_method == RequestMethod.GET:
+            response = requests.get(url)
+        else:
+            payload = json.loads(action.payload.replace("<device_id>", str(device.hostname.replace(device.device.brand.prefix, ""))))
+            print(payload)
+            response = requests.post(url, data=json.dumps(payload))
 
-    flash(f"Action {action.name} called on device {device.nickname} with response {response.text}")    
-    return redirect(url_for("user_device.show", user_device_id=user_device_id))
+        flash(f"Action {action.name} called on device {device.nickname} with response {response.text}", 'success')    
+        return redirect(url_for("user_device.show", user_device_id=user_device_id))
+    except Exception as e:
+        flash(str(e), "error")
+        return redirect(url_for("user_device.show", user_device_id=user_device_id))
