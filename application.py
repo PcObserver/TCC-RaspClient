@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_bootstrap import Bootstrap5
-
+from flask_htmx import HTMX
 db = SQLAlchemy()
+htmx = HTMX()
 
 from models import action, brand, device, user_device, user
 from views import application_blueprint, device_blueprint, brand_blueprint, user_device_blueprint, action_blueprint
@@ -14,8 +14,8 @@ def create_app(**startup_config):
     app.config.from_pyfile("settings.py")
     app.secret_key = app.config["SECRET_KEY"]
     app.config.update(startup_config)
-    Bootstrap5(app)
 
+    htmx.init_app(app)
     db.init_app(app)
     Migrate(app, db)
 

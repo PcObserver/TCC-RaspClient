@@ -13,3 +13,4 @@ zipp==3.18.1
 Flask-Migrate==4.0.7
 bootstrap-flask==2.4.0
 requests==2.26.0
+flask-htmx==0.3.2
