@@ -25,15 +25,15 @@
                                 <p class="card-text">{{device.description}}</p>
                             </div>
                             <div class="dropdown">
-                                <button class="btn" type=" button" id="dropdownMenuButton" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
+                                <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     ...
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item"
+                                            href="{{url_for('device.show', device_id=device.id)}}">Ver
+                                            detalhes</a></li>
+                                    <li><a class="dropdown-item" href="#">Clonar dispositivo</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
