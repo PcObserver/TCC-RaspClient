@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, flash, redirect,url_for
 from models.user_device import UserDevice
 import utils.network as network
+import requests
+from flask import session
 
 application_blueprint = Blueprint("application", __name__)
 
@@ -51,3 +53,43 @@ def connect_to_network():
 @application_blueprint.route("/settings", methods=['GET'])
 def settings():
     return render_template("/settings/index.html")
+
+@application_blueprint.route("/login", methods=['POST'])
+def login():
+    try:
+        data = {
+            "email":  request.form['email'],
+            "password": request.form['password']
+        }
+        response = requests.post('http://localhost:8000/api/users/log_in/', data=data)
+        print(response.json())
+        session['access_token'] = response.json()['access']
+        session['refresh_token'] = response.json()['refresh']
+        if response.status_code != 200:
+            flash(response.json()['detail'], 'error')
+        else:
+            flash("Login successful", 'success')
+        return redirect(url_for("application.home"))
+    except Exception as e:
+        flash(str(e), 'error')
+        return redirect(url_for("application.home"))
+    
+
+@application_blueprint.route("/register", methods=['POST'])
+def register():
+    try:
+        data = {
+            "name": request.form['name'],
+            "email": request.form['email'],
+            "password": request.form['password'],
+            "password_confirmation": request.form['password_confirmation']
+        }
+        response = requests.post('http://localhost:8000/api/users/sign_up/', data=data)
+        if response.status_code != 201:
+            flash(response.json(), 'error')
+        else:
+            flash("User created successfully", 'success')
+        return redirect(url_for("application.home"))
+    except Exception as e:
+        flash(str(e), 'error')
+        return redirect(url_for("application.home"))
