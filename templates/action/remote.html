@@ -1,15 +1,12 @@
 {% extends "./layout/base.html" %}
-{% block title %}Comandos{% endblock %}
+{% block title %}Marcas{% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="fs-3 mb-0">Comandos</h1>
-                <div class="d-flex gap-3">
-                    <a href="{{url_for('action.list_remote')}}" class="btn btn-outline-primary">Importar comando <i
-                            class="bi bi-house-down"></i></a>
-                    <a href="{{url_for('action.create')}}" class="btn btn-primary">Novo Comando</a>
+                <div class="col">
+                    <h1 class="fs-3 mb-0">Importar comandos</h1>
                 </div>
             </div>
             <div class="table-responsive">
@@ -18,16 +15,16 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5 class="card-title
-                                    {% if action.status == 'online' %}
-                                        text-success
-                                    {% elif action.status == 'offline' %}
-                                        text-danger
-                                    {% endif %}">
-                                    {{action.name}}
-                                </h5>
-                                <p class="card-text">{{action.device.name}} - {{action.device.brand.name}}</p>
-                                <p class="card-text">{{action.device.description}}</p>
+                                <h5 class="card-title fw-bold mb-0">{{action.name}}</h5>
+                                <p class="fw-bold text-body-secondary fs-8 fst-italic mb-1">por: {{action.user.name}}
+                                </p>
+                                <p class="text-body-tertiary mb-0">
+                                    Ultima revisão: {{action.updated_at.strftime("%m/%d/%Y")}}
+                                </p>
+                            </div>
+                            <div class="d-flex flex-column text-center">
+                                <h5 class="card-title fw-semibold ">Núm. likes</h5>
+                                <p class="card-title fw-semibold ">{{action.positive_reviews_count}}</p>
                             </div>
                             <div class="dropdown">
                                 <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -37,7 +34,7 @@
                                     <li><a class="dropdown-item"
                                             href="{{url_for('action.show', action_id=action.id)}}">Ver
                                             detalhes</a></li>
-                                    <li><a class="dropdown-item" href="#">Clonar comando</a></li>
+                                    <li><a class="dropdown-item" href="#">Importar comando</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -45,6 +42,9 @@
                 </div>
                 {% endfor %}
             </div>
+            {% with url='action.list_remote' %}
+            {% include "./components/pagination.html" %}
+            {% endwith %}
         </div>
     </div>
 </div>

@@ -1,11 +1,28 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from models.action import Action, RequestMethod, ConnectionProtocol
 from models.device import Device
-from application import db
+from application import db, api
 import json
 from uuid import UUID
+from data.action_dto import ActionDTO
 
 action_blueprint = Blueprint("action", __name__)
+
+
+@action_blueprint.route("/actions/remote", methods=["GET"])
+def list_remote():
+    try:
+        response = api.list_actions(page=request.args.get("page", 1))
+        context = {
+            "actions": [ActionDTO(**result) for result in response["results"]],
+            "next_page": response["next"],
+            "previous_page": response["previous"]
+        }
+        return render_template("action/remote.html", **context)
+    except Exception as e:
+        flash(str(e), "danger")
+        return render_template("action/remote.html")
+
 
 
 @action_blueprint.route("/actions", methods=["GET"])
