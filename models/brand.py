@@ -3,6 +3,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from application import db
 import uuid
 
+
 class Brand(db.Model):
     __tablename__ = "brands"
 

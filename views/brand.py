@@ -3,8 +3,24 @@ from models.brand import Brand
 from application import db, api
 from uuid import UUID
 from flask_htmx import make_response
-
+from data.brand_dto import BrandDTO
+import time
 brand_blueprint = Blueprint("brand", __name__)
+
+
+@brand_blueprint.route("/brands/remote/", methods=["GET"])
+def list_remote():
+    try:
+        response = api.list_brands(page=request.args.get("page", 1))
+        context = {
+            "brands": [BrandDTO(**result) for result in response["results"]],
+            "next_page": response["next"],
+            "previous_page": response["previous"]
+        }
+        return render_template("brand/remote.html", **context)
+    except Exception as e:
+        flash(str(e), "danger")
+        return render_template("brand/remote.html")
 
 
 @brand_blueprint.route("/brands")
