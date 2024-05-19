@@ -13,6 +13,7 @@ def list_brands():
     }
     return jsonify(context)
 
+
 @brand_blueprint.route("/brands/index")
 def index():
     context = {
@@ -34,10 +35,10 @@ def create():
         brand = Brand(name=name, prefix=prefix)
         db.session.add(brand)
         db.session.commit()
-
+        flash("Marca criada com sucesso", "success")
         return redirect(url_for("brand.show", brand_id=brand.id))
     except Exception as e:
-        flash(e)
+        flash(str(e), "error")
         return render_template("brand/new.html")
     
 
@@ -71,7 +72,7 @@ def delete(brand_id):
         db.session.delete(brand)
         db.session.commit()
         flash("Marca deletada com sucesso", "success")
-        return redirect(url_for("brand.index"), code=303)
+        return render_template("brand/index.html", brands=Brand.query.all())
     except Exception as e:
         flash(str(e), "danger")
         return render_template("brand/show.html", brand=Brand.query.get(UUID(brand_id)))

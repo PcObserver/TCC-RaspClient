@@ -17,6 +17,9 @@
     <script src="{{ url_for('static',filename='js/libs/select2.full.min.js') }}"></script>
     <script src="{{ url_for('static',filename='js/libs/select2-pt-BR.min.js') }}"></script>
     <script src="{{ url_for('static',filename='js/initializers/select2.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/custom/modal_controller.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/custom/toast_controller.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/custom/auth_controller.js') }}"></script>
 </head>
 
 <body class="d-flex flex-nowrap bg-body-tertiary">
@@ -29,7 +32,7 @@
             </div>
         </div>
     </div>
-    <div id="alerts" class="toast-container position-absolute top-0 end-0 p-3" style="z-index: 1100;"
+    <div id="alerts" class="toast-container position-absolute bottom-0 end-0 p-3" style="z-index: 1100;"
         hx-swap-oob="afterbegin">
         {% with messages = get_flashed_messages(with_categories=True) %}
         {% for category, message in messages %}
@@ -47,33 +50,6 @@
             <div class="modal-content"></div>
         </div>
     </div>
-
-    <script>
-        $('.toast').map(function (index, element) {
-            if (element.classList.contains('hide')) { return; }
-            let toast = new bootstrap.Toast(element);
-            toast.show();
-            setTimeout(function () { element.remove(); }, 15 * 1000);
-        });
-
-        // HTMX requests
-        htmx.onLoad(function (content) {
-            [content].map(el => {
-                if (el.classList.contains('toast')) {
-                    let toast = new bootstrap.Toast(el);
-                    toast.show();
-                    setTimeout(function () {
-                        el.remove();
-                    }, 15 * 1000);
-                }
-            });
-        });
-
-        // Modal
-        htmx.on('close-modal', function (event) {
-            $('#auth-modal').modal('hide');
-        });
-    </script>
 </body>
 
 </html>

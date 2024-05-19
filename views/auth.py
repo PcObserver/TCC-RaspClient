@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 import requests
 from flask import session
 from flask_htmx import make_response
@@ -22,19 +22,51 @@ def login():
             }
             response = requests.post('http://localhost:8000/api/users/log_in/', data=data)
             if response.json().get('detail'):
-                flash(response.json()['detail'], 'error')
+                raise Exception(response.json()['detail'])
             else:
                 session['access_token'] = response.json()['access']
                 session['refresh_token'] = response.json()['refresh']
                 flash("Login successful", 'success')
-            return make_response(render_template("/auth/login_form.html"), push_url=False, trigger={"close-modal": "true"})
+
+                response = make_response( 
+                    render_template("/components/topbar.html"),
+                    push_url=False,
+                    retarget="#topbar",
+                    reswap="outerHTML",
+                    trigger={"close-modal": "true", 
+                             "store-token": {
+                                         "access_token": session['access_token'],
+                                         "refresh_token": session['refresh_token']
+                                        }
+                             }
+                    )
+                
+                return response
         except Exception as e:
             flash(str(e), 'error')
             return render_template("/auth/login_form.html")
         
+        
+@auth_blueprint.route("/logout", methods=['GET'])
+def logout():
+    try:
+        session.pop('access_token', None)
+        session.pop('refresh_token', None)
+        flash("Logout successful", 'success')
+
+        response = make_response(
+            render_template("/components/topbar.html"),
+            push_url=False, 
+            trigger={"remove-token": "true"}
+        )
+
+        return response
+    except Exception as e:
+        flash(str(e), 'error')
+        return render_template("/auth/login_form.html")
     
 
-@auth_blueprint.route("/register", methods=['GET','POST'])
+@auth_blueprint.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
         return render_template("/auth/register_form.html")

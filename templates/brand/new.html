@@ -10,7 +10,7 @@
   </ol>
 </nav>
 <h2 class="fw-bold text-body-emphasis mb-5">Cadastre uma marca</h2>
-<form hx-post="{{ url_for('brand.create') }}" hx-target="body">
+<form action="{{ url_for('brand.create') }}" method="post">
   <div class="mb-3">
     <label for="brand_name" class="form-label fw-bold">Nome da marca</label>
     <input type="text" class="form-control" id="brand_name" name="name" required>
@@ -28,4 +28,17 @@
   </div>
 </form>
 
+<script>
+  $("form").submit(function (e) {
+    e.preventDefault();
+    var is_public = $(this).find("#brand_is_plublic").is(":checked");
+    var accessToken = sessionStorage.getItem("access_token", "");
+    console.log(accessToken);
+    if (!accessToken && is_public) {
+      htmx.trigger("#auth-toggle", "click");
+      return;
+    }
+    e.currentTarget.submit();
+  });
+</script>
 {% endblock %}
