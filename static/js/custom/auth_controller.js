@@ -1,6 +1,7 @@
 htmx.on('store-token', function (event) {
     sessionStorage.setItem('access_token', event.detail.access_token);
     sessionStorage.setItem('refresh_token', event.detail.refresh_token);
+    console.log('Token stored');
 });
 
 htmx.on('remove-token', function (event) {

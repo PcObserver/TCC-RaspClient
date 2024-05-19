@@ -2,6 +2,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_htmx import HTMX
+from utils.api_adapter import ApiAdapter
+
+api = ApiAdapter()
 db = SQLAlchemy()
 htmx = HTMX()
 
@@ -17,6 +20,7 @@ def create_app(**startup_config):
 
     htmx.init_app(app)
     db.init_app(app)
+    api.init_app(app)
     Migrate(app, db)
 
     with app.app_context():

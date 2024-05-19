@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from models.brand import Brand
-from application import db
+from application import db, api
 from uuid import UUID
 from flask_htmx import make_response
 
@@ -31,11 +31,19 @@ def new():
 @brand_blueprint.route("/brand", methods=["POST"]) 
 def create():
     try:
-        name = request.form.get("name")
-        prefix = request.form.get("prefix")
-        brand = Brand(name=name, prefix=prefix)
+        brand_data = { 
+            "name": request.form.get("name"),
+            "prefix": request.form.get("prefix")
+        }
+        brand = Brand(**brand_data)
+
+        if request.form.get("is_public"):
+            response = api.make_contribuition(brand_data, "Brand")
+            brand.id = UUID(response["id"])
+            
         db.session.add(brand)
         db.session.commit()
+
         flash("Marca criada com sucesso", "success")
         return make_response(
             render_template("brand/show.html", brand=brand),
