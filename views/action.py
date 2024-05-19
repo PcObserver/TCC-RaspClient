@@ -14,6 +14,7 @@ action_blueprint = Blueprint("action", __name__)
 def list_remote():
     try:
         response = api.list_actions(page=request.args.get("page", 1))
+        breakpoint()
         context = {
             "actions": [ActionDTO(**result) for result in response["results"]],
             "next_page": response["next"],
