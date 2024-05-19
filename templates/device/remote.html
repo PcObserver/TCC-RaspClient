@@ -1,0 +1,55 @@
+{% extends "./layout/base.html" %}
+{% block title %}Marcas{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="col">
+                    <h1 class="fs-3 mb-0">Importar dispositivos</h1>
+                </div>
+            </div>
+            <div class="table-responsive">
+                {% for device in devices %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title fw-bold mb-0">{{device.display_name}}</h5>
+                                <p class="fw-bold text-body-secondary fs-8 fst-italic mb-1">por: {{device.user.name}}
+                                </p>
+                                <p class="text-body-tertiary mb-0">
+                                    Ultima revisão: {{device.updated_at.strftime("%m/%d/%Y")}}
+                                </p>
+                            </div>
+                            <div class="d-flex flex-column text-center">
+                                <h5 class="card-title fw-semibold ">Núm. cmd</h5>
+                                <p class="card-title fw-semibold ">{{device.actions_count}}</p>
+                            </div>
+                            <div class="d-flex flex-column text-center">
+                                <h5 class="card-title fw-semibold ">Núm. likes</h5>
+                                <p class="card-title fw-semibold ">{{device.positive_reviews_count}}</p>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    ...
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item"
+                                            href="{{url_for('device.show', device_id=device.id)}}">Ver
+                                            detalhes</a></li>
+                                    <li><a class="dropdown-item" href="#">Importar dispositivo</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% with url='device.list_remote' %}
+            {% include "./components/pagination.html" %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+{% endblock %}

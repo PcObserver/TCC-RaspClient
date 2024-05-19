@@ -6,7 +6,11 @@
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="fs-3 mb-0">Dispositivos</h1>
-                <a href="{{url_for('device.create')}}" class="btn btn-primary">Novo Dispositivo</a>
+                <div class="d-flex gap-3">
+                    <a href="{{url_for('device.list_remote')}}" class="btn btn-outline-primary">Importar dispositivo <i
+                            class="bi bi-house-down"></i></a>
+                    <a href="{{url_for('device.create')}}" class="btn btn-primary">Novo dispositivo</a>
+                </div>
             </div>
             <div class="table-responsive">
                 {% for device in devices %}

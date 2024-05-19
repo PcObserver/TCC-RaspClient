@@ -80,9 +80,9 @@ class ApiAdapter:
         response.raise_for_status()
         return response.json()
     
-    def list_devices(self):
+    def list_devices(self, page: int):
         response = requests.get(
-            self.url + "/devices/devices/",
+            self.url + "/devices/devices/?page={}".format(page),
             headers={"Authorization": "Bearer {}".format(session["access_token"])},
         )
         response.raise_for_status()

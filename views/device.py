@@ -4,10 +4,26 @@ from models.device import Device
 from models.brand import Brand
 from application import db, api
 from sqlalchemy.orm import joinedload
+from data.device_dto import DeviceDTO
 
 
 device_blueprint = Blueprint("device", __name__)
 
+
+@device_blueprint.route("/devices/remote/", methods=["GET"])
+def list_remote():
+    try:
+        response = api.list_devices(page=request.args.get("page", 1))
+        context = {
+            "devices": [DeviceDTO(**result) for result in response["results"]],
+            "next_page": response["next"],
+            "previous_page": response["previous"]
+        }
+        return render_template("device/remote.html", **context)
+    except Exception as e:
+        flash(str(e), "danger")
+        return render_template("device/remote.html")
+    
 
 @device_blueprint.route("/devices")
 def list_devices():
