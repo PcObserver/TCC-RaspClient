@@ -27,7 +27,7 @@
             {% endfor %}
         </select>
     </div>
-    <div>
+    <div class="mb-3">
         <label for="connection_protocol" class="form-label">Protocolo</label>
         <select class="form-select" id="connection_protocol" name="connection_protocol" required>
             {% for protocol in connection_protocols %}
@@ -35,19 +35,13 @@
             {% endfor %}
         </select>
     </div>
-
     <div class="mb-3">
         <label for="path" class="form-label">Rota</label>
         <input type="text" class="form-control" id="path" name="path" required>
     </div>
     <div class="mb-3">
         <label for="device_id" class="form-label">Dispositivo</label>
-        <select class="form-select disabled" id="device_id" name="device_id">
-            {% for device in devices %}
-            <option value="{{device.id}}" {{"selected=true" if device.id==selected_device_id else "" }}>
-                {{device.name}}
-            </option>
-            {% endfor %}
+        <select class="form-select select2-devices" data-select2-id="devices" id="model" name="model" required>
         </select>
     </div>
     <div class="mb-3">
@@ -55,15 +49,16 @@
         <span class="ms-3" onclick="prettyPrint()"><i class="bi bi-stars"></i></span>
         <textarea class="form-control" id="payload" name="payload" rows="3"></textarea>
     </div>
-    <div class="mb-3">
-        <label for="brand_name" class="form-label fw-bold">Publicar no repositorio remoto</label>
-        <input type="checkbox" class="form-check" id="brand_is_plublic" name="publish">
+    <div class="mb-3 d-flex ">
+        <input type="checkbox" class="form-check mx-2" id="is_public" name="is_public">
+        <label for="brand_name" class="form-label fw-bold mb-0">Publicar no repositorio remoto</label>
     </div>
     <div class="d-flex justify-content-end mt-5">
         <button type="submit" class="btn btn-primary">Registrar</button>
     </div>
 
 </form>
+<script src="{{ url_for('static',filename='js/custom/api_controller.js') }}"></script>
 <script>
     function prettyPrint() {
         var payload = document.getElementById('payload');

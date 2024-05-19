@@ -19,20 +19,20 @@
         <textarea class="form-control" id="device_description" name="device_description" rows="3" required></textarea>
     </div>
     <div class="mb-3">
-        <label for="device_type" class="form-label">Marca de dispositivo</label>
-        <select class="form-select disabled" id="device_type" name="brand_id">
-            <option value="" selected>Selecione uma marca</option>
-            {% for brand in brands %}
-            <option value="{{brand.id}}" {{ "selected=true" if brand.id==selected_brand_id else '' }}>{{brand.name}}
-            </option>
-            {% endfor %}
-        </select>
+        <div>
+            <label for="brand_id" class="form-label fw-bold">Marca</label>
+            <select class="form-select select2-brands" id="brand_id" data-select2-id="brand_id" name="brand_id"
+                required>
+            </select>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="brand_name" class="form-label fw-bold">Publicar no repositorio remoto</label>
-        <input type="checkbox" class="form-check" id="brand_is_plublic" name="publish">
+    <div class="mb-3 d-flex ">
+        <input type="checkbox" class="form-check mx-2" id="is_public" name="is_public">
+        <label for="brand_name" class="form-label fw-bold mb-0">Publicar no repositorio remoto</label>
     </div>
     <div class="d-flex justify-content-end mt-5">
         <button type="submit" class="btn btn-primary">Registrar</button>
     </div>
-    {% endblock %}
+</form>
+<script src="{{ url_for('static',filename='js/custom/api_controller.js') }}"></script>
+{% endblock %}

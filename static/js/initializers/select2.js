@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
     $('.select2-brands').select2({
+        theme: 'bootstrap4',
         ajax: {
             url: '/brands',
             dataType: 'json',
@@ -15,10 +16,12 @@ $(document).ready(function() {
                     results: data.brands,
                 };
             },
+            cache: true,
         },
     });
 
     $('.select2-devices').select2({
+        theme: 'bootstrap4',
         ajax: {
             url: '/devices',
             dataType: 'json',
@@ -33,6 +36,7 @@ $(document).ready(function() {
                     results: data.devices,
                 };
             },
+            cache: true,
         },
     });
 });

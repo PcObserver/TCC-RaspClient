@@ -38,7 +38,7 @@ def create():
         brand = Brand(**brand_data)
 
         if request.form.get("is_public"):
-            response = api.make_contribuition(brand_data, "Brand")
+            response = api.publish_brand(brand_data)
             brand.id = UUID(response["id"])
             
         db.session.add(brand)

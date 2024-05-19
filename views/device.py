@@ -2,7 +2,7 @@ from uuid import UUID
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from models.device import Device
 from models.brand import Brand
-from application import db
+from application import db, api
 from sqlalchemy.orm import joinedload
 
 
@@ -34,17 +34,30 @@ def new():
 @device_blueprint.route("/device", methods=["POST"])
 def create():
     try:
-        name = request.form.get("name")
-        brand_id = request.form.get("brand_id")
-        description = request.form.get("device_description")
-        device = Device(brand_id=UUID(brand_id), name=name, description=description)
+
+        device_data ={
+            "name": request.form.get("name"),
+            "brand_id": request.form.get("brand_id"),
+            "description": request.form.get("device_description")
+        }
+        device = Device(**device_data)
+        if request.form.get("is_public"):
+            if not api.brand_exists(device_data["brand_id"]):
+                brand = Brand.query.get(UUID(device_data["brand_id"]))
+                response = api.publish_brand({"name": brand.name, "prefix": brand.prefix})
+                brand.id = UUID(response["id"])
+                db.session.add(brand)
+            breakpoint()
+            response = api.publish_device(device_data)
+            device.id = UUID(response["id"])
+
         db.session.add(device)
         db.session.commit()
 
         flash("Device created successfully", "success")
         return redirect(url_for("device.show", device_id=device.id))
     except Exception as e:
-        flash(e)
+        flash(str(e), "error")
         return render_template("device/new.html")
 
 
