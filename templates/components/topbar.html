@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-end bg-white py-2 px-5" id="topbar">
-    <div class="pe-3 fs-3">
+    <div class="pe-2 fs-3">
         {% if session["access_token"] %}
 
         <div class="dropdown">
@@ -20,7 +20,7 @@
         </button>
         {% endif %}
     </div>
-    <span class="fw-bold align-content-center">
-        {{current_user["name"] if current_user else "Usuário"}}
+    <span class="fw-bold d-flex flex-column justify-content-center pt-2">Olá, {{session["user_name"] if
+        session["user_name"] else "Usuário"}}!
     </span>
 </div>

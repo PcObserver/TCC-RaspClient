@@ -21,6 +21,7 @@ class ApiAdapter:
         response.raise_for_status()
         session["access_token"] = response.json()["access"]
         session["refresh_token"] = response.json()["refresh"]
+        session["user_name"] = response.json()["user"]["name"]
     
     def logout(self):
         response = requests.post(
@@ -31,6 +32,7 @@ class ApiAdapter:
         response.raise_for_status()
         session.pop("access_token")
         session.pop("refresh_token")
+        session.pop("user_name")
     
     def register(self, name: str, email: str, password: str, password_confirmation: str):
         response = requests.post(
