@@ -1,0 +1,6 @@
+<div class="d-flex justify-content-between">
+    <a href="{{url_for(url, page=request.args.get('page') | int() -1)}}"
+        class="btn btn-alert {{'disabled' if not previous_page else ''}}">Prev</a>
+    <a href="{{url_for(url, page=request.args.get('page') | int() +1)}}"
+        class="btn btn-alert {{'disabled' if not next_page else ''}}">Próx.</a>
+</div>
