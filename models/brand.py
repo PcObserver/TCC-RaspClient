@@ -18,3 +18,4 @@ class Brand(db.Model):
             "id": self.id,
             "text": self.name,
         }
+    

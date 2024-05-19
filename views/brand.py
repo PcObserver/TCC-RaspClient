@@ -61,10 +61,7 @@ def create():
         db.session.commit()
 
         flash("Marca criada com sucesso", "success")
-        return make_response(
-            render_template("brand/show.html", brand=brand),
-            push_url=True
-        )
+        return render_template("brand/show.html", brand=brand)
     except Exception as e:
         flash(str(e), "error")
         return redirect(url_for("brand.new"))

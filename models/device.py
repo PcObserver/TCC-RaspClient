@@ -21,7 +21,7 @@ class Device(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "brand": self.brand_id,
+            "brand_id": self.brand_id,
         }
     
     def to_select2_dict(self):

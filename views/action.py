@@ -24,13 +24,13 @@ def list_remote():
         return render_template("action/remote.html")
 
 
-
 @action_blueprint.route("/actions", methods=["GET"])
 def list_actions(device_id):
     context = {
         "actions": Action.query.filter_by(device_id=UUID(device_id)).all()
     }
     return render_template("action/index.html", **context)
+
 
 @action_blueprint.route("/actions/index", methods=["GET"])
 def index():

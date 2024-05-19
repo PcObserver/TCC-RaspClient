@@ -30,6 +30,7 @@ def list_devices():
     context = {"devices": [device.to_select2_dict() for device in Device.query.all()]}
     return jsonify(context)
 
+
 @device_blueprint.route("/devices/index")
 def index():
     context = {
@@ -51,20 +52,21 @@ def new():
 def create():
     try:
 
-        device_data ={
+        device_data = {
             "name": request.form.get("name"),
-            "brand_id": request.form.get("brand_id"),
+            "brand_id": UUID(request.form.get("brand_id")),
             "description": request.form.get("device_description")
         }
         device = Device(**device_data)
         if request.form.get("is_public"):
-            if not api.brand_exists(device_data["brand_id"]):
-                brand = Brand.query.get(UUID(device_data["brand_id"]))
+            if not api.brand_exists(device.id):
+                brand = Brand.query.get(device.brand_id)
                 response = api.publish_brand({"name": brand.name, "prefix": brand.prefix})
-                brand.id = UUID(response["id"])
+                brand.id = UUID(response['id'])
+                device.brand_id = brand.id
                 db.session.add(brand)
-            breakpoint()
-            response = api.publish_device(device_data)
+
+            response = api.publish_device(device.to_dict())
             device.id = UUID(response["id"])
 
         db.session.add(device)
@@ -74,7 +76,7 @@ def create():
         return redirect(url_for("device.show", device_id=device.id))
     except Exception as e:
         flash(str(e), "error")
-        return render_template("device/new.html")
+        return redirect(url_for("device.new"))
 
 
 @device_blueprint.route("/device/<device_id>", methods=["GET"])

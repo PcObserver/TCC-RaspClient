@@ -9,18 +9,18 @@ class DeviceDTO:
     id: UUID
     display_name: str
     parent_brand: UUID
-    created_at: datetime
-    updated_at: datetime
-    user: UserDTO
-    positive_reviews_count: int
-    actions_count: int
+    created_at: datetime = None  
+    updated_at: datetime = None
+    user: UserDTO = None
+    positive_reviews_count: int = 0
+    actions_count: int = 0
 
     def __post_init__(self):
         self.id = UUID(self.id)
         self.parent_brand = UUID(self.parent_brand)
         self.created_at = datetime.fromisoformat(self.created_at)
         self.updated_at = datetime.fromisoformat(self.updated_at)
-        self.user = UserDTO(**self.user)
+        self.user = UserDTO(**self.user) if self.user else None
 
     def parse(self):
         return Device(
@@ -28,4 +28,3 @@ class DeviceDTO:
             name=self.display_name,
             brand_id=self.parent_brand
         )
-
