@@ -19,9 +19,9 @@
     <label for="brand_name" class="form-label fw-bold">Prefixo</label>
     <input type="text" class="form-control" id="brand_prefix" name="prefix" required>
   </div>
-  <div class="mb-3">
-    <label for="brand_name" class="form-label fw-bold">Publicar no repositorio remoto</label>
-    <input type="checkbox" class="form-check" id="brand_is_plublic" name="publish">
+  <div class="mb-3 d-flex ">
+    <input type="checkbox" class="form-check mx-2" id="is_plublic" name="publish">
+    <label for="brand_name" class="form-label fw-bold mb-0">Publicar no repositorio remoto</label>
   </div>
   <div class="d-flex justify-content-end mt-5">
     <button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -31,14 +31,13 @@
 <script>
   $("form").submit(function (e) {
     e.preventDefault();
-    var is_public = $(this).find("#brand_is_plublic").is(":checked");
+    var is_public = $(this).find("#is_plublic").is(":checked");
     var accessToken = sessionStorage.getItem("access_token", "");
-    console.log(accessToken);
     if (!accessToken && is_public) {
       htmx.trigger("#auth-toggle", "click");
       return;
     }
-    e.currentTarget.submit();
+    e.target.submit();
   });
 </script>
 {% endblock %}

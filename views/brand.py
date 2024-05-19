@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, jsonif
 from models.brand import Brand
 from application import db
 from uuid import UUID
+from flask_htmx import make_response
 
 brand_blueprint = Blueprint("brand", __name__)
 
@@ -36,10 +37,13 @@ def create():
         db.session.add(brand)
         db.session.commit()
         flash("Marca criada com sucesso", "success")
-        return redirect(url_for("brand.show", brand_id=brand.id))
+        return make_response(
+            render_template("brand/show.html", brand=brand),
+            push_url=True
+        )
     except Exception as e:
         flash(str(e), "error")
-        return render_template("brand/new.html")
+        return redirect(url_for("brand.new"))
     
 
 @brand_blueprint.route("/brand/<brand_id>", methods=["GET"])
@@ -59,10 +63,10 @@ def update(brand_id):
         brand.prefix = request.form.get("prefix")
         db.session.commit()
         flash("Marca atualizada com sucesso", "success")
-        return redirect(url_for("brand.show", brand_id=brand.id))
+        return render_template("brand/show.html", brand=brand)
     except Exception as e:
         flash(str(e), "danger")
-        return redirect(url_for("brand.show", brand_id=brand.id))
+        return render_template("brand/show.html", brand=Brand.query.get(UUID(brand_id)))
 
 
 @brand_blueprint.route("/brand/<brand_id>", methods=["DELETE"])

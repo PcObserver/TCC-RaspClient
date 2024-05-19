@@ -83,7 +83,19 @@ def register():
                 raise Exception(response.json())
             else:
                 flash("User created successfully", 'success')
-            return make_response(render_template("/auth/register_form.html"), push_url=False, trigger={"close-modal": "true"})
+                response = make_response( 
+                    render_template("/components/topbar.html"),
+                    push_url=False,
+                    retarget="#topbar",
+                    reswap="outerHTML",
+                    trigger={"close-modal": "true", 
+                             "store-token": {
+                                        #  "access_token": session['access_token'],
+                                        #  "refresh_token": session['refresh_token']
+                                        }
+                             }
+                    )
+            return response
         except Exception as e:
             flash(str(e), 'error')
             return render_template("/auth/register_form.html")
