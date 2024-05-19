@@ -10,7 +10,7 @@
   </ol>
 </nav>
 <h2 class="fw-bold text-body-emphasis mb-5">Cadastre uma marca</h2>
-<form hx-post="{{ url_for('brand.create') }}" method="POST" hx-target="body">
+<form hx-post="{{ url_for('brand.create') }}" hx-target="body">
   <div class="mb-3">
     <label for="brand_name" class="form-label fw-bold">Nome da marca</label>
     <input type="text" class="form-control" id="brand_name" name="name" required>
@@ -27,11 +27,5 @@
     <button type="submit" class="btn btn-primary">Cadastrar</button>
   </div>
 </form>
-<script>
-  $('form').submit(function (e) {
-    e.preventDefault()
-    console.log(sessionStorage.length)
-  })
 
-</script>
 {% endblock %}
