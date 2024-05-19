@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from models.action import Action, RequestMethod, ConnectionProtocol
 from models.device import Device
+from models.brand import Brand
 from application import db, api
 import json
 from uuid import UUID
@@ -54,22 +55,40 @@ def new():
 @action_blueprint.route("/action", methods=["POST"])
 def create():
     try:
-        payload_data = request.form.get("payload_data")
-        device_id = request.form.get("device_id")
-        action = Action(name=request.form.get("name"),
-                        description=request.form.get("description"),
-                        path=request.form.get("path"), 
-                        device_id=UUID(device_id),
-                        payload=json.dumps(payload_data), 
-                        request_method=request.form.get("request_method"),
-                        connection_protocol=request.form.get("connection_protocol")
-                        )
+        action = Action(
+            name=request.form.get("name"),
+            description=request.form.get("description"),
+            path=request.form.get("path"), 
+            device_id=UUID(request.form.get("device_id")),
+            payload=json.dumps(json.loads(request.form.get("payload"))), 
+            request_method=request.form.get("request_method"),
+            connection_protocol=request.form.get("connection_protocol")
+         )
+        
+        if request.form.get("is_public"):
+            if not api.device_exists(action.id):
+                device = Device.query.get(action.device_id)
+                if not api.brand_exists(device.brand_id):
+                    brand = Brand.query.get(device.brand_id)
+                    response = api.publish_brand({"name": brand.name, "prefix": brand.prefix})
+                    brand.id = UUID(response['id'])
+                    device.brand_id = brand.id
+                    db.session.add(brand)
+                response = api.publish_device({"name": device.name, "description": device.description, "brand_id": device.brand_id})
+                device.id = UUID(response['id'])
+                action.device_id = device.id
+                db.session.add(device)
+
+            response = api.publish_action(action.to_dict())
+            action.id = UUID(response["id"])
+        
         db.session.add(action)
         db.session.commit()
-        return redirect(url_for("application.home"))
+        flash("Action created successfully", "success")
+        return redirect(url_for("action.show", action_id=action.id))
     except Exception as e:
-        flash(e)
-        return render_template("action/new.html")
+        flash(str(e), "error")
+        return redirect(url_for("action.new"))
 
 
 @action_blueprint.route("/action/<action_id>", methods=["GET"])

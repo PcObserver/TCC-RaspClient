@@ -72,6 +72,19 @@ class ApiAdapter:
         response.raise_for_status()
         return response.json()
     
+    def publish_action(self, data: dict):
+        data.update({"contribution_type": "Action", 
+                    "parent_device": data["device_id"]})
+        data.pop("device_id")
+
+        response = requests.post(
+            self.url + "/contributions/",
+            headers={"Authorization": "Bearer {}".format(session["access_token"])},
+            data=data)
+            
+        response.raise_for_status()
+        return response.json()
+    
     def list_brands(self, page: int):
         response = requests.get(
             self.url + "/devices/brands/?page={}".format(page),
@@ -123,6 +136,13 @@ class ApiAdapter:
     def brand_exists(self, brand_id: str):
         response = requests.get(
             self.url + f"/devices/brands/{brand_id}",
+            headers={"Authorization": "Bearer {}".format(session["access_token"])},
+        )
+        return response.status_code == 200
+    
+    def device_exists(self, device_id: str):
+        response = requests.get(
+            self.url + f"/devices/devices/{device_id}",
             headers={"Authorization": "Bearer {}".format(session["access_token"])},
         )
         return response.status_code == 200

@@ -35,3 +35,15 @@ class Action(db.Model):
     updated_at = db.Column(db.TIMESTAMP, server_default=func.now(), onupdate=func.now())
     device = db.relationship("Device", backref="actions")
 
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "description": self.description,
+            "path": self.path,
+            "device_id": self.device_id,
+            "payload": self.payload,
+            "request_method": self.request_method,
+            "connection_protocol": self.connection_protocol,
+        }
+
