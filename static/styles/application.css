@@ -1,5 +1,6 @@
 :root{
     --light-purple: 113, 97, 239;
+    --dark-purple: #493CA7;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
@@ -8,7 +9,21 @@
 }
 
 .btn-primary {
-    background-color: rgba(var(--light-purple), 1);
+    --bs-btn-hover-bg: var(--dark-purple);
+    --bs-btn-hover-border-color: var(--dark-purple);
+    --bs-btn-bg: rgba(var(--light-purple), 1);
+    --bs-btn-border-color: rgba(var(--light-purple), 1);
+    --bs-btn-active-bg: var(--dark-purple);
+    --bs-btn-active-border-color: var(--dark-purple);
+    font-weight: bold;
+}
+
+.btn-outline-primary {
+    --bs-btn-hover-bg: var(--dark-purple);
+    --bs-btn-hover-border-color: var(--dark-purple);
+    --bs-btn-active-bg: var(--dark-purple);
+    --bs-btn-active-border-color: var(--dark-purple);
+    color: rgba(var(--light-purple), 1);
     border-color: rgba(var(--light-purple), 1);
     font-weight: bold;
 }
