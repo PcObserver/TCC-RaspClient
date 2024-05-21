@@ -14,7 +14,8 @@
     </div>
     <div class="">
         <a class="btn btn-outline-danger" hx-delete="{{url_for('device.delete', device_id=device.id)}}" hx-target="body"
-            hx-push-url="true">
+            hx-confirm="Tem certeza que deseja excluir a marca?" hx-push-url="true"
+            hx-vals='js:{is_public: $("#is_public").is(":checked")}'>
             Excluir dispositivo
         </a>
     </div>
@@ -31,6 +32,11 @@
             required>{{device.description}}</textarea>
     </div>
     <div class="mb-3">
+        <label for="device_prefix" class="form-label fw-bold">Prefixo</label>
+        <input type="text" class="form-control" id="device_prefix" name="device_prefix" value="{{device.prefix}}"
+            required>
+    </div>
+    <div class="mb-3">
         <div>
             <label for="brand_id" class="form-label fw-bold">Marca</label>
             <select class="form-select select2-brands" id="brand_id" data-select2-id="brand_id" name="brand_id"
@@ -39,6 +45,15 @@
             </select>
         </div>
     </div>
+    {% if device.author_id == session['user_id'] or not device.author_id %}
+    <div class="mb-3 d-flex ">
+        <input type="checkbox" class="form-check mx-2" id="is_public" name="is_public">
+        <label for="brand_name" class="form-label fw-bold mb-0">Publicar {{'no repositorio remoto' if not
+            device.author_id
+            else 'atualização' }}</label>
+    </div>
+    {% endif %}
+
     <div class="d-flex justify-content-end mt-5">
         <button type="submit" class="btn btn-primary">Editar</button>
     </div>

@@ -27,7 +27,7 @@ class Action(db.Model):
     path = db.Column(db.String)
     payload = db.Column(db.JSON)
     request_method = db.Column(db.Enum(RequestMethod), default=RequestMethod.POST)
-    contrituion_id = db.Column(UUID(as_uuid=True), nullable=True)
+    contrituion_id = db.Column(UUID(as_uuid=True), nullable=True, unique=True)
     connection_protocol = db.Column(
         db.Enum(ConnectionProtocol), default=ConnectionProtocol.HTTP
     )
@@ -44,7 +44,6 @@ class Action(db.Model):
     device = db.relationship("Device", backref="actions")
     author = db.relationship("Author", back_populates="actions")
 
-
     def to_dict(self):
         return {
             "name": self.name,
@@ -55,4 +54,3 @@ class Action(db.Model):
             "request_method": self.request_method,
             "connection_protocol": self.connection_protocol,
         }
-

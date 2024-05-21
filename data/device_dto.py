@@ -4,14 +4,16 @@ from models.device import Device
 from uuid import UUID
 from datetime import datetime
 
+
 @dataclass
 class DeviceDTO:
     id: UUID
     display_name: str
-    parent_brand: UUID
     description: str
+    parent_brand: UUID
+    prefix: str = None
     contribution_type: str = None
-    created_at: datetime = None  
+    created_at: datetime = None
     updated_at: datetime = None
     user: UserDTO = None
     positive_reviews_count: int = 0
@@ -28,7 +30,8 @@ class DeviceDTO:
         return Device(
             name=self.display_name,
             description=self.description,
+            prefix=self.prefix,
             brand_id=self.parent_brand,
             contribution_id=self.id,
-            author_id=self.user.id
+            author_id=self.user.id,
         )

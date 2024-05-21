@@ -4,6 +4,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from application import db
 import uuid
 
+
 class Device(db.Model):
     __tablename__ = "devices"
 
@@ -12,8 +13,10 @@ class Device(db.Model):
     description = db.Column(db.String(100), nullable=True)
     prefix = db.Column(db.String(10), nullable=True)
     brand_id = db.Column(UUID(as_uuid=True), db.ForeignKey("brands.id"), nullable=False)
-    author_id = db.Column(UUID(as_uuid=True), db.ForeignKey("authors.id"), nullable=True)
-    contribution_id = db.Column(UUID(as_uuid=True), nullable=True)
+    author_id = db.Column(
+        UUID(as_uuid=True), db.ForeignKey("authors.id"), nullable=True
+    )
+    contribution_id = db.Column(UUID(as_uuid=True), nullable=True, unique=True)
 
     created_at = db.Column(db.TIMESTAMP, server_default=func.now())
     updated_at = db.Column(db.TIMESTAMP, server_default=func.now(), onupdate=func.now())
@@ -24,12 +27,13 @@ class Device(db.Model):
 
     def to_dict(self):
         return {
-            "id": self.id,
+            "id": self.contribution_id,
             "name": self.name,
             "description": self.description,
-            "brand_id": self.brand_id,
+            "brand_id": self.brand.contribution_id,
+            "prefix": self.prefix,
         }
-    
+
     def to_select2_dict(self):
         return {
             "id": self.id,

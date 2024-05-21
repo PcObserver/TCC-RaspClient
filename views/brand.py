@@ -15,11 +15,18 @@ brand_blueprint = Blueprint("brand", __name__)
 def list_remote():
     try:
         response = api.list_brands(page=request.args.get("page", 1))
-        imported_brands = [str(brand.contribution_id) for brand in Brand.query.filter(Brand.contribution_id.isnot(None))]
+        imported_brands = [
+            str(brand.contribution_id)
+            for brand in Brand.query.filter(Brand.contribution_id.isnot(None))
+        ]
         context = {
-            "brands": [BrandDTO(**result) for result in response["results"] if result['id'] not in imported_brands],
+            "brands": [
+                BrandDTO(**result)
+                for result in response["results"]
+                if result["id"] not in imported_brands
+            ],
             "next_page": response["next"],
-            "previous_page": response["previous"]
+            "previous_page": response["previous"],
         }
         return render_template("brand/remote.html", **context)
     except Exception as e:
@@ -53,17 +60,13 @@ def import_remote(brand_id):
 
 @brand_blueprint.route("/brands")
 def list_brands():
-    context = {
-        "brands": [brand.to_select2_dict() for brand in Brand.query.all()]
-    }
+    context = {"brands": [brand.to_select2_dict() for brand in Brand.query.all()]}
     return jsonify(context)
 
 
 @brand_blueprint.route("/brands/index")
 def index():
-    context = {
-        "brands": Brand.query.all()
-    }
+    context = {"brands": Brand.query.all()}
     return render_template("brand/index.html", **context)
 
 
@@ -72,10 +75,10 @@ def new():
     return render_template("brand/new.html")
 
 
-@brand_blueprint.route("/brand", methods=["POST"]) 
+@brand_blueprint.route("/brand", methods=["POST"])
 def create():
     try:
-        brand_data = { 
+        brand_data = {
             "name": request.form.get("name"),
             "prefix": request.form.get("prefix"),
             "description": request.form.get("description"),
@@ -87,7 +90,9 @@ def create():
         if request.form.get("is_public"):
             response = BrandDTO(**api.publish_brand(brand_data))
             brand.contribution_id = response.id
-            author, was_created = get_or_create(db.session, Author, **response.user.parse().to_dict())
+            author, was_created = get_or_create(
+                db.session, Author, **response.user.parse().to_dict()
+            )
             brand.author_id = author.id
             db.session.add(brand)
             db.session.commit()
@@ -97,14 +102,12 @@ def create():
     except Exception as e:
         flash(str(e), "error")
         return redirect(url_for("brand.new"))
-    
+
 
 @brand_blueprint.route("/brand/<brand_id>", methods=["GET"])
 def show(brand_id):
     brand = Brand.query.get(UUID(brand_id))
-    context = {
-        "brand": brand
-    }
+    context = {"brand": brand}
     return render_template("brand/show.html", **context)
 
 
@@ -121,7 +124,9 @@ def update(brand_id):
         if request.form.get("is_public"):
             response = BrandDTO(**api.create_or_update_brand(brand.to_dict()))
             brand.contribution_id = response.id
-            author, was_created = get_or_create(db.session, Author, **response.user.parse().to_dict())
+            author, was_created = get_or_create(
+                db.session, Author, **response.user.parse().to_dict()
+            )
             brand.author_id = author.id
             db.session.add(brand)
             db.session.commit()
@@ -137,7 +142,9 @@ def update(brand_id):
 def delete(brand_id):
     try:
         brand = Brand.query.get(UUID(brand_id))
-        if request.form.get("is_public") == 'true' and api.brand_exists(brand.contribution_id):
+        if request.form.get("is_public") == "true" and api.brand_exists(
+            brand.contribution_id
+        ):
             api.delete_brand(brand.contribution_id)
         db.session.delete(brand)
         db.session.commit()
@@ -145,4 +152,4 @@ def delete(brand_id):
         return redirect(url_for("brand.index"), code=303)
     except Exception as e:
         flash(str(e), "danger")
-        return redirect(url_for("brand.show", brand_id=brand_id))
+        return redirect(url_for("brand.show", brand_id=brand_id), code=303)

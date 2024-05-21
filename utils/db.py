@@ -10,7 +10,7 @@ def get_or_create(session, model, **kwargs):
             session.commit()
         except Exception:
             session.rollback()
-            instance = session.query(model).filter_by(**kwargs).first()
+            instance = session.query(model).filter_by(**kwargs).one()
             return instance, False
         else:
             return instance, True

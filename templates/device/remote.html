@@ -9,7 +9,7 @@
                     <h1 class="fs-3 mb-0">Importar dispositivos</h1>
                 </div>
             </div>
-            <div class="table-responsive">
+            <div class="">
                 {% for device in devices %}
                 <div class="card mb-3">
                     <div class="card-body">
@@ -36,9 +36,8 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item"
-                                            href="{{url_for('device.show', device_id=device.id)}}">Ver
-                                            detalhes</a></li>
-                                    <li><a class="dropdown-item" href="#">Importar dispositivo</a></li>
+                                            href="{{url_for('device.import_remote', device_id=device.id)}}">Importar
+                                            dispositivo</a></li>
                                 </ul>
                             </div>
                         </div>
