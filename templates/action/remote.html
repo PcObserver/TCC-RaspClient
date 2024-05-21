@@ -9,7 +9,7 @@
                     <h1 class="fs-3 mb-0">Importar comandos</h1>
                 </div>
             </div>
-            <div class="table-responsive">
+            <div class="">
                 {% for action in actions %}
                 <div class="card mb-3">
                     <div class="card-body">
@@ -31,9 +31,6 @@
                                     ...
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item"
-                                            href="{{url_for('action.show', action_id=action.id)}}">Ver
-                                            detalhes</a></li>
                                     <li><a class="dropdown-item" href="#">Importar comando</a></li>
                                 </ul>
                             </div>

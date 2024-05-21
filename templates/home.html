@@ -7,7 +7,7 @@
         <div class="col-auto d-flex align-items-center justify-content-between">
             <div class="d-flex">
                 <form class="">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
                 </form>
             </div>
             <div class="col-auto">
@@ -23,20 +23,20 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="">
-                        <h5 class="card-title
-                            {% if user_device.status == 'online' %}
-                            text-success
-                            {% elif user_device.status == 'offline' %}
-                            text-danger
-                            {% endif %}">
-                            <a href="{{url_for('user_device.show', user_device_id=user_device.id)}}">
-                                {{user_device.nickname}}
-                            </a>
-                        </h5>
-                        <p class="card-text">
-                            {{user_device.device.name}} - {{user_device.device.brand.name}}</p>
-                        <p class="card-text">
-                            {{user_device.hostname}}:{{user_device.port}}</p>
+                        <div class="d-flex gap-3 align-items-center">
+                            <i class="fs-2 bi bi-lamp-fill pe-3"></i>
+                            <div class="">
+                                <h5 class="card-title">
+                                    <a href="{{url_for('user_device.show', user_device_id=user_device.id)}}">
+                                        {{user_device.nickname}}
+                                    </a>
+                                </h5>
+                                <p class="card-text">
+                                    {{user_device.device.name}} - {{user_device.device.brand.name}}</p>
+                                <p class="card-text">
+                                    {{user_device.hostname}}:{{user_device.port}}</p>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="dropdown">
@@ -47,7 +47,6 @@
                             <li><a class="dropdown-item"
                                     href="{{url_for('user_device.show', user_device_id=user_device.id)}}">Ver
                                     detalhes</a></li>
-                            <li><a class="dropdown-item" href="#">Clonar dispositivo</a></li>
                         </ul>
                     </div>
                 </div>

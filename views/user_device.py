@@ -12,9 +12,7 @@ user_device_blueprint = Blueprint("user_device", __name__)
 
 @user_device_blueprint.route("/user_device", methods=["GET"])
 def new():
-    context = {
-        "devices": list_available_devices()
-    }
+    context = {"devices": list_available_devices()}
     return render_template("user_device/new.html", **context)
 
 
@@ -26,24 +24,29 @@ def create():
         device_model_id = request.form.get("model")
         port = request.form.get("port")
         address = request.form.get("address")
-        user_device = UserDevice(hostname=hostname, nickname=nickname, device_id=UUID(device_model_id), user_id=None, port=port, address=address)
+        user_device = UserDevice(
+            hostname=hostname,
+            nickname=nickname,
+            device_id=UUID(device_model_id),
+            port=port,
+            address=address,
+        )
         db.session.add(user_device)
         db.session.commit()
 
         flash("Device created successfully", "success")
         return redirect(url_for("application.home"))
     except Exception as e:
+        flash(str(e))
+        return redirect(url_for("user_device.new"))
 
-        flash(e)
-        return render_template("user_device/new.html")
-    
 
 @user_device_blueprint.route("/user_device/<user_device_id>")
 def show(user_device_id):
     user_device = UserDevice.query.get(UUID(user_device_id))
     context = {
         "user_device": user_device,
-        "commands": Action.query.filter_by(device_id=user_device.device_id).all()
+        "commands": Action.query.filter_by(device_id=user_device.device_id).all(),
     }
     return render_template("user_device/show.html", **context)
 
@@ -63,7 +66,7 @@ def update(user_device_id):
     except Exception as e:
         flash(e)
         return redirect(url_for("user_device.show", device_id=user_device.id))
-    
+
 
 @user_device_blueprint.route("/user_device/<user_device_id>", methods=["DELETE"])
 def delete(user_device_id):
@@ -75,10 +78,14 @@ def delete(user_device_id):
         return redirect(url_for("application.home"), code=303)
     except Exception as e:
         flash(e)
-        return redirect(url_for("user_device.show", user_device_id=user_device.id), code=303)
+        return redirect(
+            url_for("user_device.show", user_device_id=user_device.id), code=303
+        )
 
 
-@user_device_blueprint.route("/user_device/<user_device_id>/action/<action_id>/", methods=["GET"])
+@user_device_blueprint.route(
+    "/user_device/<user_device_id>/action/<action_id>/", methods=["GET"]
+)
 def call_action(user_device_id, action_id):
     try:
         action = Action.query.get(UUID(action_id))
@@ -88,11 +95,19 @@ def call_action(user_device_id, action_id):
         if action.request_method == RequestMethod.GET:
             response = requests.get(url)
         else:
-            payload = json.loads(action.payload.replace("<device_id>", str(device.hostname.replace(device.device.brand.prefix, ""))))
+            payload = json.loads(
+                action.payload.replace(
+                    "<device_id>",
+                    str(device.hostname.replace(device.device.brand.prefix, "")),
+                )
+            )
             print(payload)
             response = requests.post(url, data=json.dumps(payload))
 
-        flash(f"Action {action.name} called on device {device.nickname} with response {response.text}", 'success')    
+        flash(
+            f"Action {action.name} called on device {device.nickname} with response {response.text}",
+            "success",
+        )
         return redirect(url_for("user_device.show", user_device_id=user_device_id))
     except Exception as e:
         flash(str(e), "error")

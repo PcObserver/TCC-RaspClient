@@ -4,7 +4,7 @@
 
         <div class="dropdown">
             <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle"></i>
+                <i class="bi bi-person-circle  fs-3"></i>
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item link-danger" hx-get="{{url_for('auth.logout')}}" hx-target="#topbar"
@@ -16,7 +16,7 @@
         {% else %}
         <button type="button" class="btn" id="auth-toggle" hx-get="{{url_for('auth.auth_modal')}}"
             hx-target="#auth-modal" hx-trigger="click" data-bs-toggle="modal" data-bs-target="#auth-modal">
-            <i class="bi bi-person-circle"></i>
+            <i class="bi bi-person-circle fs-3"></i>
         </button>
         {% endif %}
     </div>

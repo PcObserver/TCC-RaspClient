@@ -15,7 +15,8 @@
     </div>
     <div class="">
         <a class="btn btn-outline-danger" hx-delete="{{url_for('action.delete', action_id=action.id)}}" hx-target="body"
-            hx-push-url="true">
+            hx-push-url="true" hx-confirm="Tem certeza que deseja excluir a marca?" hx-push-url="true"
+            hx-vals='js:{is_public: $("#is_public").is(":checked")}'>
             Excluir comando
         </a>
     </div>
@@ -65,6 +66,15 @@
         <span class="ms-3" onclick="prettyPrint()"><i class="bi bi-stars"></i></span>
         <textarea class="form-control" id="payload" name="payload" rows="6">{{action.payload}}</textarea>
     </div>
+    {% if action.author_id == session['user_id'] or not action.author_id %}
+    <div class="mb-3 d-flex ">
+        <input type="checkbox" class="form-check mx-2" id="is_public" name="is_public">
+        <label for="brand_name" class="form-label fw-bold mb-0">Publicar {{'no repositorio remoto' if not
+            action.author_id
+            else 'atualização' }}</label>
+    </div>
+    {% endif %}
+
     <div class="d-flex justify-content-end mt-5">
         <button type="submit" class="btn btn-primary">Atualizar</button>
     </div>
