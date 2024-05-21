@@ -14,7 +14,7 @@
     </div>
     <div class="">
         <a class="btn btn-outline-danger" hx-delete="{{url_for('device.delete', device_id=device.id)}}" hx-target="body"
-            hx-confirm="Tem certeza que deseja excluir a marca?" hx-push-url="true"
+            hx-confirm="Tem certeza que deseja excluir o dispositivo?" hx-push-url="true"
             hx-vals='js:{is_public: $("#is_public").is(":checked")}'>
             Excluir dispositivo
         </a>
