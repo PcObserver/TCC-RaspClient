@@ -216,6 +216,7 @@ class ApiAdapter:
             self.url + f"/devices/brands/{brand_id}",
             headers={"Authorization": "Bearer {}".format(session["access_token"])},
         )
+        response.raise_for_status()
         return response.json()
     
     def delete_device(self, device_id: str):
@@ -223,6 +224,7 @@ class ApiAdapter:
             self.url + f"/devices/devices/{device_id}",
             headers={"Authorization": "Bearer {}".format(session["access_token"])},
         )  
+        response.raise_for_status()
         return response.json()
     
     def delete_action(self, action_id: str):
@@ -230,4 +232,5 @@ class ApiAdapter:
             self.url + f"/devices/actions/{action_id}",
             headers={"Authorization": "Bearer {}".format(session["access_token"])},
         )
+        response.raise_for_status()
         return response.json()
