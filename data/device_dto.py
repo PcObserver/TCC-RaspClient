@@ -10,6 +10,7 @@ class DeviceDTO:
     display_name: str
     parent_brand: UUID
     description: str
+    contribution_type: str
     created_at: datetime = None  
     updated_at: datetime = None
     user: UserDTO = None

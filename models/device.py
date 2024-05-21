@@ -10,6 +10,7 @@ class Device(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = db.Column(db.String(25), nullable=False)
     description = db.Column(db.String(100), nullable=True)
+    prefix = db.Column(db.String(10), nullable=True)
     brand_id = db.Column(UUID(as_uuid=True), db.ForeignKey("brands.id"), nullable=False)
     author_id = db.Column(UUID(as_uuid=True), db.ForeignKey("authors.id"), nullable=True)
     contribution_id = db.Column(UUID(as_uuid=True), nullable=True)

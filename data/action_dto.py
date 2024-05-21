@@ -4,7 +4,8 @@ from models.action import Action, RequestMethod, ConnectionProtocol
 from uuid import UUID
 from datetime import datetime
 import json
-from uuid import UUID
+
+
 @dataclass
 class ActionDTO:
     id: UUID

@@ -8,7 +8,7 @@ api = ApiAdapter()
 db = SQLAlchemy()
 htmx = HTMX()
 
-from models import action, brand, device, user_device, user
+from models import action, author, brand, device, user_device
 from views import application_blueprint, device_blueprint, brand_blueprint, user_device_blueprint, action_blueprint, signals_blueprint, auth_blueprint
 
 def create_app(**startup_config):

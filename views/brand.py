@@ -2,10 +2,11 @@ from flask import Blueprint, render_template, request, redirect, url_for, jsonif
 from models.brand import Brand
 from application import db, api
 from uuid import UUID
-from flask_htmx import make_response
 from data.brand_dto import BrandDTO
 from data.device_dto import DeviceDTO
 from data.action_dto import ActionDTO
+from models.author import Author
+from utils.db import get_or_build
 
 brand_blueprint = Blueprint("brand", __name__)
 
@@ -23,6 +24,7 @@ def list_remote():
     except Exception as e:
         flash(str(e), "danger")
         return render_template("brand/remote.html")
+
 
 @brand_blueprint.route("/brands/import/<brand_id>", methods=["GET"])
 def import_remote(brand_id):
@@ -46,6 +48,7 @@ def import_remote(brand_id):
     except Exception as e:
         flash(str(e), "danger")
         return redirect(url_for("brand.list_remote"))
+
 
 @brand_blueprint.route("/brands")
 def list_brands():
@@ -76,14 +79,17 @@ def create():
             "prefix": request.form.get("prefix")
         }
         brand = Brand(**brand_data)
-
-        if request.form.get("is_public"):
-            response = api.publish_brand(brand_data)
-            brand.id = UUID(response["id"])
-            
         db.session.add(brand)
         db.session.commit()
-        breakpoint()
+
+        if request.form.get("is_public"):
+            response = BrandDTO(**api.publish_brand(brand_data))
+            brand.contribution_id = response.id
+            author = response.user.parse()
+            brand.author_id = author.id
+            get_or_build(db.session, Author, **author.to_dict())
+            db.session.add(brand)
+            db.session.commit()
 
         flash("Marca criada com sucesso", "success")
         return render_template("brand/show.html", brand=brand)

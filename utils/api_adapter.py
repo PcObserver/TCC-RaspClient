@@ -43,7 +43,7 @@ class ApiAdapter:
         self.login(email, password)
 
     def publish_brand(self, data: dict):
-        breakpoint()      
+              
         data.update({"contribution_type": "Brand", "display_name": data["name"]})
         data.pop("name")
         response = requests.post(

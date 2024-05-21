@@ -15,6 +15,7 @@ class BrandDTO:
     user: UserDTO
     devices_count: int
     positive_reviews_count: int
+    contribution_type: str
 
     def __post_init__(self):
         self.id = UUID(self.id)
