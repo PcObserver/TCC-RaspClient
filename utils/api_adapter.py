@@ -66,6 +66,8 @@ class ApiAdapter:
 
         if response.status_code != 201:
             flash(response.json(), "error")
+        else:
+            flash("Brand published successfully", "success")
 
         response.raise_for_status()
         return response.json()
@@ -89,6 +91,8 @@ class ApiAdapter:
 
         if response.status_code != 201:
             flash(response.json(), "error")
+        else:
+            flash("Device published successfully", "success")
 
         response.raise_for_status()
         return response.json()
@@ -102,6 +106,10 @@ class ApiAdapter:
             headers={"Authorization": "Bearer {}".format(session["access_token"])},
             data=data,
         )
+        if response.status_code != 201:
+            flash(response.json(), "error")
+        else:
+            flash("Action published successfully", "success")
 
         response.raise_for_status()
         return response.json()
@@ -215,6 +223,13 @@ class ApiAdapter:
         )
         return response.status_code == 200
 
+    def action_exists(self, action_id: str):
+        response = requests.get(
+            self.url + f"/devices/actions/{action_id}",
+            headers={"Authorization": "Bearer {}".format(session["access_token"])},
+        )
+        return response.status_code == 200
+
     def create_or_update_brand(self, data: dict):
         if self.brand_exists(data["id"]):
             return self.update_brand(data)
@@ -243,7 +258,6 @@ class ApiAdapter:
             self.url + f"/devices/devices/{device_id}",
             headers={"Authorization": "Bearer {}".format(session["access_token"])},
         )
-        response.raise_for_status()
         return response
 
     def delete_action(self, action_id: str):
@@ -251,5 +265,4 @@ class ApiAdapter:
             self.url + f"/devices/actions/{action_id}",
             headers={"Authorization": "Bearer {}".format(session["access_token"])},
         )
-        response.raise_for_status()
-        return response.json()
+        return response

@@ -11,7 +11,7 @@ class ActionDTO:
     id: UUID
     name: str
     description: str
-    parent_device: UUID 
+    parent_device: UUID
     method: RequestMethod
     protocol: ConnectionProtocol
     path: str
@@ -20,7 +20,7 @@ class ActionDTO:
     updated_at: str = None
     user: UserDTO = None
     positive_reviews_count: int = 0
-    contribuition_type: str = None
+    contribution_type: str = None
 
     def __post_init__(self):
         self.id = UUID(self.id)
@@ -41,5 +41,5 @@ class ActionDTO:
             connection_protocol=self.protocol,
             payload=self.payload,
             author_id=self.user.id,
-            contribuition_id=self.id
+            contribution_id=self.id,
         )

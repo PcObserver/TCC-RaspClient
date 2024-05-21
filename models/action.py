@@ -27,7 +27,7 @@ class Action(db.Model):
     path = db.Column(db.String)
     payload = db.Column(db.JSON)
     request_method = db.Column(db.Enum(RequestMethod), default=RequestMethod.POST)
-    contrituion_id = db.Column(UUID(as_uuid=True), nullable=True, unique=True)
+    contribution_id = db.Column(UUID(as_uuid=True), nullable=True, unique=True)
     connection_protocol = db.Column(
         db.Enum(ConnectionProtocol), default=ConnectionProtocol.HTTP
     )
@@ -46,10 +46,11 @@ class Action(db.Model):
 
     def to_dict(self):
         return {
+            "id": self.contribution_id,
             "name": self.name,
             "description": self.description,
             "path": self.path,
-            "device_id": self.device_id,
+            "device_id": self.device.contribution_id,
             "payload": self.payload,
             "request_method": self.request_method,
             "connection_protocol": self.connection_protocol,

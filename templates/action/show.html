@@ -15,7 +15,7 @@
     </div>
     <div class="">
         <a class="btn btn-outline-danger" hx-delete="{{url_for('action.delete', action_id=action.id)}}" hx-target="body"
-            hx-push-url="true" hx-confirm="Tem certeza que deseja excluir o comando?" hx-push-url="true"
+            hx-confirm="Tem certeza que deseja excluir o comando?" hx-push-url="true"
             hx-vals='js:{is_public: $("#is_public").is(":checked")}'>
             Excluir comando
         </a>
@@ -56,8 +56,9 @@
         <input type="text" class="form-control" id="path" name="path" value="{{action.path}}" required>
     </div>
     <div class="mb-3">
-        <label for="device_model" class="form-label">Modelo</label>
-        <select class="form-select select2-devices" data-select2-id="devices" id="model" name="model" required>
+        <label for="device_id" class="form-label">Modelo</label>
+        <select class="form-select select2-devices" data-select2-id="device_id" id="device_id" name="device_id"
+            required>
             <option value="{{action.device_id}}" selected="selectd">{{action.device.name}}</option>
         </select>
     </div>

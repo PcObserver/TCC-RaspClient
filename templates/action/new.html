@@ -10,7 +10,7 @@
     </ol>
 </nav>
 <h2 class="fw-bold text-body-emphasis mb-5">Registrar Comando</h2>
-<form action="{{ url_for('action.create', device_id=device_id)}}" method="POST">
+<form action="{{ url_for('action.create')}}" method="POST">
     <div class="mb-3">
         <label for="name" class="form-label">Nome da ação</label>
         <input type="text" class="form-control" id="name" name="name" required>
@@ -41,7 +41,8 @@
     </div>
     <div class="mb-3">
         <label for="device_id" class="form-label">Dispositivo</label>
-        <select class="form-select select2-devices" data-select2-id="devices" id="device_id" name="device_id" required>
+        <select class="form-select select2-devices" data-select2-id="device_id" id="device_id" name="device_id"
+            required>
         </select>
     </div>
     <div class="mb-3">
