@@ -9,6 +9,7 @@ class DeviceDTO:
     id: UUID
     display_name: str
     parent_brand: UUID
+    description: str
     created_at: datetime = None  
     updated_at: datetime = None
     user: UserDTO = None
@@ -26,5 +27,6 @@ class DeviceDTO:
         return Device(
             id=self.id,
             name=self.display_name,
+            description=self.description,
             brand_id=self.parent_brand
         )

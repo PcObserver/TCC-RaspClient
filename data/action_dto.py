@@ -9,6 +9,7 @@ from uuid import UUID
 class ActionDTO:
     id: UUID
     name: str
+    description: str
     parent_device: UUID 
     method: RequestMethod
     protocol: ConnectionProtocol
@@ -20,22 +21,22 @@ class ActionDTO:
     positive_reviews_count: int = 0
 
     def __post_init__(self):
-        self.id = str(UUID(self.id))
+        self.id = UUID(self.id)
         self.user = UserDTO(**self.user) if self.user else None
-        self.parent_device = str(UUID(self.parent_device))
+        self.parent_device = UUID(self.parent_device)
         self.created_at = datetime.fromisoformat(self.created_at)
         self.updated_at = datetime.fromisoformat(self.updated_at)
-        self.method = RequestMethod(self.method)
-        self.protocol = ConnectionProtocol(self.protocol)
-
+        self.method = RequestMethod(self.method).value
+        self.protocol = ConnectionProtocol(self.protocol).value
 
     def parse(self):
         return Action(
             id=self.id,
-            name=self.display_name,
+            name=self.name,
+            description=self.description,
+            path="PATH",
             device_id=self.parent_device,
             request_method=self.method,
             connection_protocol=self.protocol,
-            path=self.path,
             payload=self.payload,
         )

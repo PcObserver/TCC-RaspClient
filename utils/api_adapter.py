@@ -43,13 +43,14 @@ class ApiAdapter:
         self.login(email, password)
 
     def publish_brand(self, data: dict):
+        breakpoint()      
         data.update({"contribution_type": "Brand", "display_name": data["name"]})
         data.pop("name")
         response = requests.post(
             self.url + "/contributions/",
             headers={"Authorization": "Bearer {}".format(session["access_token"])},
-            data=data)
-                
+            data=data)  
+        
         if response.status_code != 201:
             flash(response.json(), "error")
 
@@ -87,23 +88,29 @@ class ApiAdapter:
         response.raise_for_status()
         return response.json()
     
-    def list_brands(self, page: int):
+    def list_brands(self, page: int, q: dict = {}):
+        params = ["&{}={}".format(k, v) for k, v in q.items()]
+        params = "".join(params)
         response = requests.get(
-            self.url + "/devices/brands/?page={}".format(page),
+            self.url + "/devices/brands/?page={}".format(page) + params,
             headers={"Authorization": "Bearer {}".format(session["access_token"])},
         )
         response.raise_for_status()
         return response.json()
     
-    def list_devices(self, page: int):
+    def list_devices(self, page: int = 1, q: dict = {}):
+        params = ["&{}={}".format(k, v) for k, v in q.items()]
+        params = "".join(params)
         response = requests.get(
-            self.url + "/devices/devices/?page={}".format(page),
+            self.url + "/devices/devices/?page={}".format(page) + params,
             headers={"Authorization": "Bearer {}".format(session["access_token"])},
         )
         response.raise_for_status()
         return response.json()
     
-    def list_actions(self, page: int):
+    def list_actions(self, page: int = 1, q: dict = {}):
+        params = ["&{}={}".format(k, v) for k, v in q.items()]
+        params = "".join(params)
         response = requests.get(
             self.url + "/devices/actions/?page={}".format(page),
             headers={"Authorization": "Bearer {}".format(session["access_token"])},

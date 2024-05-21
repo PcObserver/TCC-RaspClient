@@ -8,6 +8,7 @@ from datetime import datetime
 class BrandDTO:
     id: UUID
     display_name: str
+    description: str
     prefix: str
     created_at: datetime
     updated_at: datetime

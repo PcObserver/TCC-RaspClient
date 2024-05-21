@@ -36,7 +36,9 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="{{url_for('brand.show', brand_id=brand.id)}}">Ver
                                             detalhes</a></li>
-                                    <li><a class="dropdown-item" href="#">Importar marca</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{url_for('brand.import_remote', brand_id=brand.id)}}">Importar
+                                            marca</a></li>
                                 </ul>
                             </div>
                         </div>

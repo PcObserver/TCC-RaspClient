@@ -4,7 +4,9 @@ from application import db, api
 from uuid import UUID
 from flask_htmx import make_response
 from data.brand_dto import BrandDTO
-import time
+from data.device_dto import DeviceDTO
+from data.action_dto import ActionDTO
+
 brand_blueprint = Blueprint("brand", __name__)
 
 
@@ -22,6 +24,28 @@ def list_remote():
         flash(str(e), "danger")
         return render_template("brand/remote.html")
 
+@brand_blueprint.route("/brands/import/<brand_id>", methods=["GET"])
+def import_remote(brand_id):
+    try:
+        response = api.get_brand(brand_id)
+        brand = BrandDTO(**response).parse()
+        db.session.add(brand)
+
+        response = api.list_devices(q={"parent_brand": brand_id})
+        devices = [DeviceDTO(**result).parse() for result in response["results"]]
+        db.session.add_all(devices)
+        
+        response = api.list_actions(q={"parent_device_brand": brand_id})
+        db.session.commit()
+        actions = [ActionDTO(**result).parse() for result in response["results"]]
+        db.session.add(actions[0])
+
+        db.session.commit()
+        flash("Marca importada com sucesso", "success")
+        return redirect(url_for("brand.list_remote"))
+    except Exception as e:
+        flash(str(e), "danger")
+        return redirect(url_for("brand.list_remote"))
 
 @brand_blueprint.route("/brands")
 def list_brands():
@@ -59,6 +83,7 @@ def create():
             
         db.session.add(brand)
         db.session.commit()
+        breakpoint()
 
         flash("Marca criada com sucesso", "success")
         return render_template("brand/show.html", brand=brand)

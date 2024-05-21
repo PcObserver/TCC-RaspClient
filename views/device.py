@@ -62,6 +62,7 @@ def create():
             if not api.brand_exists(device.id):
                 brand = Brand.query.get(device.brand_id)
                 response = api.publish_brand({"name": brand.name, "prefix": brand.prefix})
+                breakpoint()
                 brand.id = UUID(response['id'])
                 device.brand_id = brand.id
                 db.session.add(brand)
@@ -71,6 +72,7 @@ def create():
 
         db.session.add(device)
         db.session.commit()
+        breakpoint()
 
         flash("Device created successfully", "success")
         return redirect(url_for("device.show", device_id=device.id))
