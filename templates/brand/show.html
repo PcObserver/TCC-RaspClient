@@ -11,11 +11,12 @@
 </nav>
 <div class="d-flex justify-content-between">
   <div class="col">
-    <h2 class="fw-bold text-body-emphasis mb-5">Cadastre uma marca</h2>
+    <h2 class="fw-bold text-body-emphasis mb-5">Editar uma marca</h2>
   </div>
   <div class="">
     <a class="btn btn-outline-danger" hx-delete="{{url_for('brand.delete', brand_id=brand.id)}}" hx-target="body"
-      hx-push-url="true">
+      hx-confirm="Tem certeza que deseja excluir a marca?" hx-push-url="true"
+      hx-vals='js:{is_public: $("#is_public").is(":checked")}'>
       Excluir marca
     </a>
   </div>
@@ -29,6 +30,17 @@
     <label for="brand_name" class="form-label fw-bold">Prefixo</label>
     <input type="text" class="form-control" id="brand_prefix" name="prefix" value="{{brand.prefix}}" required>
   </div>
+  <div class="mb-3">
+    <label for="brand_name" class="form-label fw-bold">Descrição</label>
+    <textarea class="form-control" id="brand_description" name="description" rows="3">{{brand.description}}</textarea>
+  </div>
+  {% if brand.author_id == session['user_id'] or not brand.author_id %}
+  <div class="mb-3 d-flex ">
+    <input type="checkbox" class="form-check mx-2" id="is_public" name="is_public">
+    <label for="brand_name" class="form-label fw-bold mb-0">Publicar {{'no repositorio remoto' if not brand.author_id
+      else 'atualização' }}</label>
+  </div>
+  {% endif %}
   <div class="d-flex justify-content-end mt-5">
     <button type="submit" class="btn btn-primary">Editar</button>
   </div>

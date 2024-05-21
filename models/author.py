@@ -13,11 +13,13 @@ class Author(db.Model):
     created_at = db.Column(db.TIMESTAMP, server_default=func.now())
     updated_at = db.Column(db.TIMESTAMP, server_default=func.now(), onupdate=func.now())
 
+    brands = db.relationship("Brand", back_populates="author")
+    devices = db.relationship("Device", back_populates="author")
+    actions = db.relationship("Action", back_populates="author")
+
     def to_dict(self):
         return {
             "id": self.id,
             "name": self.name,
             "email": self.email,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at
         }

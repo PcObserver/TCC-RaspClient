@@ -20,6 +20,7 @@ class Device(db.Model):
 
     brand = db.relationship("Brand", backref="devices")
     user_devices = db.relationship("UserDevice", back_populates="device")
+    author = db.relationship("Author", back_populates="devices")
 
     def to_dict(self):
         return {

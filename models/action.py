@@ -42,6 +42,7 @@ class Action(db.Model):
     updated_at = db.Column(db.TIMESTAMP, server_default=func.now(), onupdate=func.now())
 
     device = db.relationship("Device", backref="actions")
+    author = db.relationship("Author", back_populates="actions")
 
 
     def to_dict(self):

@@ -15,7 +15,7 @@ class BrandDTO:
     user: UserDTO
     devices_count: int
     positive_reviews_count: int
-    contribution_type: str
+    contribution_type: str = None
 
     def __post_init__(self):
         self.id = UUID(self.id)
@@ -25,8 +25,10 @@ class BrandDTO:
     
     def parse(self):
         return Brand(
-            id=self.id,
             name=self.display_name,
             prefix=self.prefix,
+            description=self.description,
+            contribution_id=self.id,
+            author_id=self.user.id
         )
     

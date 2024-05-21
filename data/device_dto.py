@@ -10,7 +10,7 @@ class DeviceDTO:
     display_name: str
     parent_brand: UUID
     description: str
-    contribution_type: str
+    contribution_type: str = None
     created_at: datetime = None  
     updated_at: datetime = None
     user: UserDTO = None
@@ -26,8 +26,9 @@ class DeviceDTO:
 
     def parse(self):
         return Device(
-            id=self.id,
             name=self.display_name,
             description=self.description,
-            brand_id=self.parent_brand
+            brand_id=self.parent_brand,
+            contribution_id=self.id,
+            author_id=self.user.id
         )

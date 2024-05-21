@@ -6,7 +6,7 @@ from data.brand_dto import BrandDTO
 from data.device_dto import DeviceDTO
 from data.action_dto import ActionDTO
 from models.author import Author
-from utils.db import get_or_build
+from utils.db import get_or_create
 
 brand_blueprint = Blueprint("brand", __name__)
 
@@ -15,8 +15,9 @@ brand_blueprint = Blueprint("brand", __name__)
 def list_remote():
     try:
         response = api.list_brands(page=request.args.get("page", 1))
+        imported_brands = [str(brand.contribution_id) for brand in Brand.query.filter(Brand.contribution_id.isnot(None))]
         context = {
-            "brands": [BrandDTO(**result) for result in response["results"]],
+            "brands": [BrandDTO(**result) for result in response["results"] if result['id'] not in imported_brands],
             "next_page": response["next"],
             "previous_page": response["previous"]
         }
@@ -29,18 +30,18 @@ def list_remote():
 @brand_blueprint.route("/brands/import/<brand_id>", methods=["GET"])
 def import_remote(brand_id):
     try:
-        response = api.get_brand(brand_id)
-        brand = BrandDTO(**response).parse()
+        response = BrandDTO(**api.get_brand(brand_id))
+        brand = response.parse()
+        get_or_create(db.session, Author, **response.user.parse().to_dict())
         db.session.add(brand)
 
         response = api.list_devices(q={"parent_brand": brand_id})
         devices = [DeviceDTO(**result).parse() for result in response["results"]]
         db.session.add_all(devices)
-        
+
         response = api.list_actions(q={"parent_device_brand": brand_id})
-        db.session.commit()
         actions = [ActionDTO(**result).parse() for result in response["results"]]
-        db.session.add(actions[0])
+        db.session.add_all(actions)
 
         db.session.commit()
         flash("Marca importada com sucesso", "success")
@@ -76,7 +77,8 @@ def create():
     try:
         brand_data = { 
             "name": request.form.get("name"),
-            "prefix": request.form.get("prefix")
+            "prefix": request.form.get("prefix"),
+            "description": request.form.get("description"),
         }
         brand = Brand(**brand_data)
         db.session.add(brand)
@@ -85,9 +87,8 @@ def create():
         if request.form.get("is_public"):
             response = BrandDTO(**api.publish_brand(brand_data))
             brand.contribution_id = response.id
-            author = response.user.parse()
+            author, was_created = get_or_create(db.session, Author, **response.user.parse().to_dict())
             brand.author_id = author.id
-            get_or_build(db.session, Author, **author.to_dict())
             db.session.add(brand)
             db.session.commit()
 
@@ -113,7 +114,18 @@ def update(brand_id):
         brand = Brand.query.get(UUID(brand_id))
         brand.name = request.form.get("name")
         brand.prefix = request.form.get("prefix")
+        brand.description = request.form.get("description")
+        db.session.add(brand)
         db.session.commit()
+
+        if request.form.get("is_public"):
+            response = BrandDTO(**api.create_or_update_brand(brand.to_dict()))
+            brand.contribution_id = response.id
+            author, was_created = get_or_create(db.session, Author, **response.user.parse().to_dict())
+            brand.author_id = author.id
+            db.session.add(brand)
+            db.session.commit()
+
         flash("Marca atualizada com sucesso", "success")
         return render_template("brand/show.html", brand=brand)
     except Exception as e:
@@ -125,10 +137,12 @@ def update(brand_id):
 def delete(brand_id):
     try:
         brand = Brand.query.get(UUID(brand_id))
+        if request.form.get("is_public") == 'true' and api.brand_exists(brand.contribution_id):
+            api.delete_brand(brand.contribution_id)
         db.session.delete(brand)
         db.session.commit()
         flash("Marca deletada com sucesso", "success")
-        return render_template("brand/index.html", brands=Brand.query.all())
+        return redirect(url_for("brand.index"), code=303)
     except Exception as e:
         flash(str(e), "danger")
-        return render_template("brand/show.html", brand=Brand.query.get(UUID(brand_id)))
+        return redirect(url_for("brand.show", brand_id=brand_id))

@@ -9,7 +9,7 @@
                     <h1 class="fs-3 mb-0">Importar Marcas</h1>
                 </div>
             </div>
-            <div class="table-responsive">
+            <div class="">
                 {% for brand in brands %}
                 <div class="card mb-3">
                     <div class="card-body">
@@ -34,8 +34,8 @@
                                     ...
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{{url_for('brand.show', brand_id=brand.id)}}">Ver
-                                            detalhes</a></li>
+                                    <!-- <li><a class="dropdown-item" href="{{url_for('brand.show', brand_id=brand.id)}}">Ver
+                                            detalhes</a></li> -->
                                     <li><a class="dropdown-item"
                                             href="{{url_for('brand.import_remote', brand_id=brand.id)}}">Importar
                                             marca</a></li>
