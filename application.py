@@ -1,15 +1,23 @@
+from models import action, author, brand, device, user_device
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_htmx import HTMX
 from utils.api_adapter import ApiAdapter
+from views import (
+    application_blueprint,
+    device_blueprint,
+    brand_blueprint,
+    user_device_blueprint,
+    action_blueprint,
+    signals_blueprint,
+    auth_blueprint,
+)
 
 api = ApiAdapter()
 db = SQLAlchemy()
 htmx = HTMX()
 
-from models import action, author, brand, device, user_device
-from views import application_blueprint, device_blueprint, brand_blueprint, user_device_blueprint, action_blueprint, signals_blueprint, auth_blueprint
 
 def create_app(**startup_config):
 
