@@ -3,7 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_htmx import HTMX
-from utils.api_adapter import ApiAdapter
+from api.api_adapter import ApiAdapter
 from views import (
     application_blueprint,
     device_blueprint,
