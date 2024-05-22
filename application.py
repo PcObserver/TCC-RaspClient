@@ -1,5 +1,5 @@
 from models import action, author, brand, device, user_device
-from flask import Flask
+from flask import Flask, render_template, request, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_htmx import HTMX
@@ -43,5 +43,15 @@ def create_app(**startup_config):
     app.register_blueprint(auth_blueprint)
 
     app.template_folder = "templates"
+
+    @app.after_request
+    def render_messages(response: Response) -> Response:
+        if (
+            request.headers.get("HX-Request")
+            and response.data.find(b'div id="alerts"') == -1
+        ):
+            messages = render_template("components/alerts.html")
+            response.data = response.data + messages.encode("utf-8")
+        return response
 
     return app
