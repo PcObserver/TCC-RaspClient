@@ -1,22 +1,22 @@
-from models import action, author, brand, device, user_device
 from flask import Flask, render_template, request, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_htmx import HTMX
 from api.api_adapter import ApiAdapter
+
+api = ApiAdapter()
+db = SQLAlchemy()
+htmx = HTMX()
+
+from models import action, author, brand, device, user_device
 from views import (
     application_blueprint,
     device_blueprint,
     brand_blueprint,
     user_device_blueprint,
     action_blueprint,
-    signals_blueprint,
     auth_blueprint,
 )
-
-api = ApiAdapter()
-db = SQLAlchemy()
-htmx = HTMX()
 
 
 def create_app(**startup_config):
@@ -39,7 +39,6 @@ def create_app(**startup_config):
     app.register_blueprint(brand_blueprint)
     app.register_blueprint(user_device_blueprint)
     app.register_blueprint(action_blueprint)
-    app.register_blueprint(signals_blueprint)
     app.register_blueprint(auth_blueprint)
 
     app.template_folder = "templates"
