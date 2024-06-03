@@ -80,7 +80,7 @@
     <button type="submit" class="btn btn-primary">Próximo</button>
   </div>
 </form>
-
+{% endblock %}
 {% block script %}
 <script>
   $("#device").change((e) => {
@@ -99,6 +99,4 @@
     $("#new-model").prop("href", `{{url_for('device.new')}}?brand_id=${selected_value}`);
   });
 </script>
-{% endblock %}
-
 {% endblock %}
