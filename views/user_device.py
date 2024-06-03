@@ -12,8 +12,7 @@ user_device_blueprint = Blueprint("user_device", __name__)
 
 @user_device_blueprint.route("/user_device", methods=["GET"])
 def new():
-    network_adpater = "wlan0"
-    context = {"devices": list_available_devices(network_adpater)}
+    context = {"devices": list_available_devices()}
     return render_template("user_device/new.html", **context)
 
 
