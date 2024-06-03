@@ -12,19 +12,6 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/sweetalert2.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/application.css') }}">
     {% endblock %}
-    <script src="{{ url_for('static',filename='js/libs/popper.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/libs/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js//libs/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/libs/htmx.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/libs/select2.full.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/libs/select2-pt-BR.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/libs/sweetalert2.all.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/initializers/select2.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/initializers/sweetalert2.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/custom/modal_controller.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/custom/toast_controller.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/custom/auth_controller.js') }}"></script>
-
 </head>
 
 <body class="d-flex flex-nowrap bg-body-tertiary">
@@ -55,6 +42,21 @@
             <div class="modal-content"></div>
         </div>
     </div>
+    {% block scripts %}
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static',filename='js/libs/popper.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/libs/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js//libs/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/libs/htmx.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/libs/select2.full.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/libs/select2-pt-BR.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/libs/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/initializers/select2.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/initializers/sweetalert2.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/custom/modal_controller.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/custom/toast_controller.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/custom/auth_controller.js') }}"></script>
+    {% endblock %}
 </body>
 
 </html>
