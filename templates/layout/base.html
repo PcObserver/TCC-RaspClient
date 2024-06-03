@@ -42,7 +42,6 @@
             <div class="modal-content"></div>
         </div>
     </div>
-    {% block scripts %}
     <!-- Bootstrap JS -->
     <script src="{{ url_for('static',filename='js/libs/popper.min.js') }}"></script>
     <script src="{{ url_for('static',filename='js/libs/bootstrap.min.js') }}"></script>
@@ -56,6 +55,7 @@
     <script src="{{ url_for('static',filename='js/custom/modal_controller.js') }}"></script>
     <script src="{{ url_for('static',filename='js/custom/toast_controller.js') }}"></script>
     <script src="{{ url_for('static',filename='js/custom/auth_controller.js') }}"></script>
+    {% block scripts %}
     {% endblock %}
 </body>
 
