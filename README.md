@@ -1,64 +1,68 @@
+# TCC-RaspClient
 
-## Overview
+**TCC-RaspClient** é um projeto baseado em Python projetado para rodar em um Raspberry Pi, servindo como um cliente para um sistema maior de controle universal de dispositivos IoT.
 
-TCC-RaspClient is a Python-based project designed to run on a Raspberry Pi. It serves as a client application for a larger system.
+## Objetivos
 
-## Features
+- **Desenvolver um dispositivo central de controle que integre diversos dispositivos IoT.**
+- **Criar um repositório online para compartilhamento de comandos e dispositivos.**
+- **Implementar suporte para múltiplos protocolos de comunicação IoT.**
+- **Testar e validar a integração com dispositivos de marcas diferentes.**
 
-- **Data Collection:** Gathers data from connected sensors.
-- **Data Processing:** Processes the collected data for analysis.
-- **Communication:** Sends processed data to a central server.
-- **Web Interface:** Provides a web-based interface for monitoring and control.
+## Recursos
 
-## Installation
+- **Comunicação:** Envio de dados processados para um servidor central.
+- **Interface Web:** Interface web para monitoramento e controle.
 
-### Prerequisites
+## Instalação
 
-- Python 3.7 or higher
-- Raspberry Pi with Raspbian OS
+### Pré-requisitos
 
-### Steps
+- Python 3.7 ou superior
+- Raspberry Pi com Raspbian OS
 
-1. **Clone the Repository**
+### Passos
 
-  ```
-   git clone https://github.com/PcObserver/TCC-RaspClient.git
-   cd TCC-RaspClient
-```
-2. **Create and Activate Virtual Environment**
+1. **Clone o Repositório**
+    ```bash
+    git clone https://github.com/PcObserver/TCC-RaspClient.git
+    cd TCC-RaspClient
+    ```
 
- ```
-  Copy code
-  python -m venv venv
-  source venv/bin/activate
- ```
-3. **Install Requirements**
- ```
-  pip install -r requirements.txt
- ```
+2. **Crie e Ative um Ambiente Virtual**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate
+    ```
 
-## Database Setup
-### Initialize the Database
+3. **Instale as Dependências**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## Configuração do Banco de Dados
+### Inicialize o Banco de Dados
 ```
 flask --app application db init
 ```
-### Apply Migrations
+### Aplique as Migrações
 ```
 flask --app application db migrate -m "Initial migration."
 ```
-## Running the Server
-Start the Flask server with the following command:
+## Executando o Servidor
+Inicie o servidor Flask com o seguinte comando:
 ```
 flask --app application run
 ```
-### Running as a Service
-To run the TCC-RaspClient as a service on your Raspberry Pi, follow these steps:
 
-### Create a Systemd Service File
+### Executando como um Serviço
+Para rodar o TCC-RaspClient como um serviço no Raspberry Pi, siga estes passos:
+
+### Crie um Arquivo de Serviço Systemd
  ```
 sudo nano /etc/systemd/system/tcc-raspclient.service
  ```
-### Add the following content to the file:
+### Adicione o seguinte conteúdo ao arquivo:
 
  ```
 [Unit]
@@ -74,25 +78,29 @@ ExecStart=/home/pi/TCC-RaspClient/venv/bin/flask --app application run --host=0.
 [Install]
 WantedBy=multi-user.target
  ```
-### Reload Systemd and Start the Service
+
+### Recarregue o Systemd e Inicie o Serviço
+
  ```
 sudo systemctl daemon-reload
 sudo systemctl start tcc-raspclient.service
 sudo systemctl enable tcc-raspclient.service
  ```
-### Check the Status of the Service
+
+### Verifique o Status do Serviço
+
  ```
 sudo systemctl status tcc-raspclient.service
  ```
-## Project Structure
-* api/: Contains API wrapper for remote api endpoints.
-* data/: Stores sqlite data files.
-* migrations/: Database migration scripts.
-* models/: Database models.
-* static/: Static files (CSS, JS, images).
-* templates/: HTML templates.
-* utils/: Utility functions.
-* views/: View functions for the web interface.
+## Estrutura do projeto
+* api/: Contém wrappers de API para endpoints remotos.
+* data/: Armazena arquivos de dados SQLite.
+* migrations/: Scripts de migração de banco de dados.
+* models/: Modelos de banco de dados.
+* static/: Arquivos estáticos (CSS, JS, imagens).
+* templates/: Templates HTML.
+* utils/: Funções utilitárias.
+* views/: Funções de visualização para a interface web.
 
-## Contact
-For any inquiries or issues, please open an issue on GitHub.
+## Contato
+Para qualquer dúvida ou problema, por favor, abra uma issue no GitHub.
