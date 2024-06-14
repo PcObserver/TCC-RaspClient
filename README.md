@@ -21,9 +21,10 @@ TCC-RaspClient is a Python-based project designed to run on a Raspberry Pi. It s
 
 1. **Clone the Repository**
 
-  
+  ```
    git clone https://github.com/PcObserver/TCC-RaspClient.git
-   cd TCC-RaspClient```
+   cd TCC-RaspClient
+```
 2. **Create and Activate Virtual Environment**
 
  ```
