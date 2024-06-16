@@ -1,20 +1,27 @@
-# TCC-RaspClient
+# Projeto Elegos
+![Imagem do Projeto](https://github.com/PcObserver/assets/blob/main/elegos_image.png)
 
-**TCC-RaspClient** é um projeto baseado em Python projetado para rodar em um Raspberry Pi, servindo como um cliente para um sistema maior de controle universal de dispositivos IoT.
+Com o rápido avanço da tecnologia, a quantidade de dispositivos IoT vem crescendo exponencialmente. Diversos sistemas oferecem soluções para operar esses dispositivos, mas a maioria deles dá suporte apenas aos da própria marca, criando dificuldades em construir ecossistemas IoT com controle unificado. O projeto “Elegos” consiste de um controle universal de dispositivos IoT que visa unificar o gerenciamento desses dispositivos em uma única plataforma.
 
-## Objetivos
+Utilizando um hub baseado em Raspberry Pi 3 modelo B, o sistema detecta automaticamente dispositivos na rede local e permite o envio de comandos, mesmo sem conexão com a internet. Além disso, um repositório online de comandos permite a adição e o compartilhamento de novos dispositivos de forma colaborativa, permitindo a inclusão de novos dispositivos e comandos, bem como avaliação das contribuições criadas pelos usuários pela própria comunidade utilizando um sistema de avaliação por votos positivos.
 
-- **Desenvolver um dispositivo central de controle que integre diversos dispositivos IoT.**
-- **Criar um repositório online para compartilhamento de comandos e dispositivos.**
-- **Implementar suporte para múltiplos protocolos de comunicação IoT.**
-- **Testar e validar a integração com dispositivos de marcas diferentes.**
+## Repositórios Associados
+- [Back-end da Comunidade de Dispositivos IoT](https://github.com/PcObserver/iot-commands-hub)
+- [Front-end da Comunidade de Dispositivos IoT](https://github.com/PcObserver/TCC-iot-hub)
+- [Sistema do Raspberry Pi](https://github.com/PcObserver/TCC-RaspClient)
 
-## Recursos
+## Objetivo
 
-- **Comunicação:** Envio de dados processados para um servidor central.
-- **Interface Web:** Interface web para monitoramento e controle.
+O objetivo deste repositório é entregar um projeto baseado em Python projetado para rodar em um Raspberry Pi, servindo como um cliente para um sistema maior de controle universal de dispositivos IoT. O Raspberry Pi será usado no projeto, juntamente com a implementação do software desenvolvido neste repositório, como uma central de controle que integre diversos dispositivos IoT por meio de uma interface web para monitoramente e controle dos dispositivos configurados.
 
-## Instalação
+## Tecnologias Utilizadas
+
+- Python 3.7
+- Flask 3.0.3
+- SQLite
+- SQL Alchemy
+
+## Configuração do Projeto
 
 ### Pré-requisitos
 
@@ -102,5 +109,3 @@ sudo systemctl status tcc-raspclient.service
 * utils/: Funções utilitárias.
 * views/: Funções de visualização para a interface web.
 
-## Contato
-Para qualquer dúvida ou problema, por favor, abra uma issue no GitHub.
